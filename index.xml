@@ -7,7 +7,16 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>XingSea</copyright>
-        <lastBuildDate>Wed, 09 Sep 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://XingSea.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Tue, 03 Jun 2025 21:28:21 +0800</lastBuildDate><atom:link href="https://XingSea.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Mytest</title>
+        <link>https://XingSea.github.io/p/mytest/</link>
+        <pubDate>Tue, 03 Jun 2025 21:28:21 +0800</pubDate>
+        
+        <guid>https://XingSea.github.io/p/mytest/</guid>
+        <description>&lt;p&gt;萨杜u啊我觉得苏啊我·1&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>Chinese Test</title>
         <link>https://XingSea.github.io/p/test-chinese/</link>
         <pubDate>Wed, 09 Sep 2020 00:00:00 +0000</pubDate>
