@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='https://XingSea.github.io/%E5%85%B3%E4%BA%8E/'>
 
-<link rel="stylesheet" href="/scss/style.min.946cca6c6259ef94ac55abfae7c7bf3291ea3ed5eea17ef77500b257217c6710.css"><meta property='og:title' content="关于">
+<link rel="stylesheet" href="/scss/style.min.d765f2f343b19f18ee6a9a4e4749f8abdbccfc01d8204548178c58f1fde36432.css"><meta property='og:title' content="关于">
 <meta property='og:description' content="This is a test page for i18n support.\n">
 <meta property='og:url' content='https://XingSea.github.io/%E5%85%B3%E4%BA%8E/'>
 <meta property='og:site_name' content='星海-XingSea'>
@@ -396,7 +396,7 @@
                 src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
                 
                 >
-            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+            </script><script type="text/javascript" src="/ts/main.99ce1801c4bad426a42fc436add4721e149159dbb598636e9578fd59cf778c83.js" defer></script>
 <script>
     (function () {
         const customFont = document.createElement('link');
@@ -409,5 +409,83 @@
     }());
 </script>
 
+<script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
+<div id="aplayer"></div>
+
+<script>
+    const home =  null ;
+    console.log(home);
+    
+    const ap = new APlayer({
+    container: document.getElementById('aplayer'),
+    lrcType: 3,
+    fixed: true,
+    audio: [{
+        name: '两难',
+        artist: '加木',
+        url: 'music/两难/song.mp3',
+        cover: 'music/两难/cover.jpg'
+    },{
+        name: '红与黑',
+        artist: '哈利Halleeee&霍含蕾Rea',
+        url: 'music/红与黑/song.mp3',
+        cover: 'music/红与黑/cover.jpg',
+        lrc: 'music/红与黑/红与黑.lrc'
+    }]
+});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script>
+
+    
+    <script src=https://XingSea.github.io/js/topbar.min.js></script>
+
+<script>
+    var pjax = new Pjax({
+  selectors: [".main-container", ".js-Pjax"]
+})
+
+    pjax._handleResponse = pjax.handleResponse;
+    pjax.handleResponse = function(responseText, request, href, options) {
+        if (request.responseText.match("<html")) {
+            if (responseText) {
+                
+                let newDom = new DOMParser().parseFromString(responseText, 'text/html');
+                
+                let bodyClass = newDom.body.className;
+                document.body.setAttribute("class", bodyClass)
+                
+                setTimeout(() =>{
+                    pjax._handleResponse(responseText, request, href, options);
+                },500);
+            }
+        } else {
+            
+        }
+    }
+
+        
+    topbar.config({
+        barColors: {
+            '0': 'rgba(255,  255, 255, 1)', 
+            '1.0': 'rgba(0, 149, 234,  1)' 
+        }
+    })
+	
+    document.addEventListener('pjax:send', () => {
+        
+        topbar.show();
+    })
+
+
+    document.addEventListener('pjax:complete', ()=>{
+        window.Stack.init();
+        topbar.hide();
+    })
+</script>
+
+
+<div class="js-Pjax">
+    
+<div>
     </body>
 </html>
