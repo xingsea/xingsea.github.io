@@ -1,23 +1,24 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
-    <head>
-	<meta name="generator" content="Hugo 0.147.8"><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="欢迎来到我的网站，此博客由【Hugo + Stack】来进行搭建，主要分享个人生活和学习笔记">
-<title>星海-XingSea</title>
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="MyBatis-Plus 逻辑删除与唯一索引冲突问题解决方案">
+<title>MyBatis-Plus</title>
 
-<link rel='canonical' href='https://XingSea.github.io/'>
+<link rel='canonical' href='https://XingSea.github.io/p/mybatis-plus/'>
 
-<link rel="stylesheet" href="/scss/style.min.d765f2f343b19f18ee6a9a4e4749f8abdbccfc01d8204548178c58f1fde36432.css"><meta property='og:title' content="星海-XingSea">
-<meta property='og:description' content="欢迎来到我的网站，此博客由【Hugo + Stack】来进行搭建，主要分享个人生活和学习笔记">
-<meta property='og:url' content='https://XingSea.github.io/'>
+<link rel="stylesheet" href="/scss/style.min.d765f2f343b19f18ee6a9a4e4749f8abdbccfc01d8204548178c58f1fde36432.css"><meta property='og:title' content="MyBatis-Plus">
+<meta property='og:description' content="MyBatis-Plus 逻辑删除与唯一索引冲突问题解决方案">
+<meta property='og:url' content='https://XingSea.github.io/p/mybatis-plus/'>
 <meta property='og:site_name' content='星海-XingSea'>
-<meta property='og:type' content='website'><meta property='og:updated_time' content=' 2025-06-09T00:28:58&#43;08:00 '/>
-<meta name="twitter:title" content="星海-XingSea">
-<meta name="twitter:description" content="欢迎来到我的网站，此博客由【Hugo + Stack】来进行搭建，主要分享个人生活和学习笔记"><link rel="alternate" type="application/rss&#43;xml" href="https://XingSea.github.io/index.xml">
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='MyBatis-Plus' /><meta property='article:tag' content='Mysql' /><meta property='article:published_time' content='2025-06-09T00:28:58&#43;08:00'/><meta property='article:modified_time' content='2025-06-09T00:28:58&#43;08:00'/>
+<meta name="twitter:title" content="MyBatis-Plus">
+<meta name="twitter:description" content="MyBatis-Plus 逻辑删除与唯一索引冲突问题解决方案">
     <link rel="shortcut icon" href="/favicon.ico" />
 
     </head>
-    <body class="">
+    <body class="
+    article-page
+    ">
     <script>
         (function() {
             const colorSchemeKey = 'StackColorScheme';
@@ -127,7 +128,7 @@
         
         
         
-        <li  class='current' >
+        <li >
             <a href='/' >
                 
                 
@@ -255,61 +256,10 @@
     <aside class="sidebar right-sidebar sticky">
         
             
-                <form action="/search/" class="search-form widget" >
-        <p>
-            <label>搜索</label>
-            <input name="keyword" required placeholder="输入关键词..." />
-        
-            <button title="搜索">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="10" cy="10" r="7" />
-  <line x1="21" y1="21" x2="15" y2="15" />
-</svg>
-
-
-
-            </button>
-        </p>
-    </form>
-            
-        
-            
-                <section class="widget archives">
+                
+    <section class="widget archives">
         <div class="widget-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-infinity" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <path d="M9.828 9.172a4 4 0 1 0 0 5.656 a10 10 0 0 0 2.172 -2.828a10 10 0 0 1 2.172 -2.828 a4 4 0 1 1 0 5.656a10 10 0 0 1 -2.172 -2.828a10 10 0 0 0 -2.172 -2.828" />
-</svg>
-
-
-
-        </div>
-        <h2 class="widget-title section-title">归档</h2>
-
-        
-        
-        
-        
-        
-        <div class="widget-archive--list">
-            <div class="archives-year">
-                    <a href="/archives/#2025">
-                        
-                            <span class="year">2025</span>
-                            <span class="count">2</span>
-                        
-                    </a> 
-                </div>
-            
-        </div>
-    </section>
-            
-        
-            
-                <section class="widget tagCloud">
-    <div class="widget-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
   <path stroke="none" d="M0 0h24v24H0z"/>
   <line x1="5" y1="9" x2="19" y2="9" />
   <line x1="5" y1="15" x2="19" y2="15" />
@@ -319,21 +269,41 @@
 
 
 
-    </div>
-    <h2 class="widget-title section-title">分类</h2>
-
-    <div class="tagCloud-tags">
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
         
-            <a href="/categories/mysql/" class="font_size_2">
-                Mysql
-            </a>
-        
-            <a href="/categories/mybatis-plus/" class="font_size_1">
-                MyBatis-Plus
-            </a>
-        
-    </div>
-</section>
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#一问题背景">一、问题背景</a>
+      <ol>
+        <li><a href="#问题描述">问题描述</a></li>
+      </ol>
+    </li>
+    <li><a href="#二解决方案">二、解决方案</a>
+      <ol>
+        <li><a href="#方案一动态变更逻辑删除值推荐">方案一：动态变更逻辑删除值（推荐）</a>
+          <ol>
+            <li><a href="#1-字段配置">1. 字段配置</a></li>
+            <li><a href="#2-执行逻辑说明">2. 执行逻辑说明</a></li>
+            <li><a href="#3-优势与注意事项">3. 优势与注意事项</a></li>
+          </ol>
+        </li>
+        <li><a href="#方案二利用-null-值特性mysql-场景">方案二：利用 <code>NULL</code> 值特性（MySQL 场景）</a>
+          <ol>
+            <li><a href="#1-字段配置-1">1. 字段配置</a></li>
+            <li><a href="#2-数据形态">2. 数据形态</a></li>
+            <li><a href="#3-适用场景">3. 适用场景</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#三方案对比">三、方案对比</a></li>
+    <li><a href="#四总结">四、总结</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
 
             
         
@@ -341,15 +311,7 @@
 
 
             <main class="main full-width">
-    
-    
-    
-    
-
-    <section class="article-list">
-        
-            
-<article class="">
+    <article class="main-article">
     <header class="article-header">
 
     <div class="article-details">
@@ -407,67 +369,210 @@
 </div>
 
 </header>
-</article>
-        
-            
-<article class="">
-    <header class="article-header">
 
-    <div class="article-details">
-    
-    <header class="article-category">
-        
-            <a href="/categories/mysql/" >
-                Mysql
-            </a>
-        
-    </header>
-    
-
-    <div class="article-title-wrapper">
-        <h2 class="article-title">
-            <a href="/p/mysql/">MySQL</a>
-        </h2>
-    
-        
-        <h3 class="article-subtitle">
-            MySQL 基本 SQL 语句
-        </h3>
-        
-    </div>
-
+    <section class="article-content">
     
     
-    
-    
-    <footer class="article-time">
-        
-            <div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
-  <circle cx="18" cy="18" r="4" />
-  <path d="M15 3v4" />
-  <path d="M7 3v4" />
-  <path d="M3 11h16" />
-  <path d="M18 16.496v1.504l1 1" />
-</svg>
-                <time class="article-time--published">2025-06-04</time>
-            </div>
-        
-
-        
-    </footer>
-    
-
-    
+    <h1 id="mybatis-plus-逻辑删除与唯一索引冲突问题解决方案">MyBatis-Plus 逻辑删除与唯一索引冲突问题解决方案
+</h1><h2 id="一问题背景">一、问题背景
+</h2><p><strong>关键词</strong>：MyBatis-Plus（MP）、逻辑删除、唯一索引、数据插入冲突</p>
+<h3 id="问题描述">问题描述
+</h3><p>MyBatis-Plus 默认逻辑删除规则：</p>
+<ul>
+<li><code>1</code> 表示已删除（逻辑删除状态）</li>
+<li><code>0</code> 表示未删除（正常状态）</li>
+</ul>
+<p><strong>场景复现</strong>：<br>
+表结构：<code>user</code> 表包含 <code>name</code>（唯一索引）和 <code>is_delete</code>（逻辑删除字段）</p>
+<ol>
+<li><strong>首次插入</strong>：插入 <code>name=张三</code>，<code>is_delete=0</code>（未删除）。</li>
+<li><strong>逻辑删除</strong>：将该记录 <code>is_delete</code> 更新为 <code>1</code>（标记删除）。</li>
+<li><strong>再次插入</strong>：尝试插入 <code>name=张三</code>，因 <code>name</code> 唯一索引冲突报错。</li>
+</ol>
+<p><strong>初步解决方案</strong>：<br>
+创建 <code>(name, is_delete)</code> 联合唯一索引，允许不同 <code>is_delete</code> 值的相同 <code>name</code> 存在。</p>
+<ul>
+<li><strong>新问题</strong>：当第二次插入的 <code>张三</code> 被逻辑删除时，会产生两条 <code>name=张三</code> 且 <code>is_delete=1</code> 的记录，再次触发联合索引冲突。</li>
+</ul>
+<h2 id="二解决方案">二、解决方案
+</h2><h3 id="方案一动态变更逻辑删除值推荐">方案一：动态变更逻辑删除值（推荐）
+</h3><p><strong>核心思路</strong>：使用唯一标识（如主键 <code>id</code>）作为已删除状态值，避免重复。</p>
+<h4 id="1-字段配置">1. 字段配置
+</h4><p>在逻辑删除字段上添加 <code>@TableLogic</code> 注解，指定：</p>
+<ul>
+<li><code>value</code>：未删除值（如 <code>0</code>）</li>
+<li><code>delval</code>：已删除值（使用主键 <code>id</code>，需与字段类型一致）</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@TableLogic</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#34;0&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">delval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#34;#{id}&#34;</span><span class="p">)</span><span class="w"> </span><span class="c1">// 或全局配置</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="kd">private</span><span class="w"> </span><span class="n">Integer</span><span class="w"> </span><span class="n">is_delete</span><span class="p">;</span><span class="w"> </span><span class="c1">// 字段类型需与 id 一致（如 Integer）</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
 </div>
+</div><h4 id="2-执行逻辑说明">2. 执行逻辑说明
+</h4><ul>
+<li>
+<p><strong>查询</strong>：仅返回 <code>is_delete = 0</code> 的记录（未删除）。</p>
+</li>
+<li>
+<p><strong>删除</strong>：将 <code>is_delete</code> 更新为当前记录的 <code>id</code>（唯一值）。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- 逻辑删除执行 SQL
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">UPDATE</span><span class="w"> </span><span class="k">user</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">is_delete</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">#</span><span class="err">{</span><span class="n">id</span><span class="err">}</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">#</span><span class="err">{</span><span class="n">currentId</span><span class="err">}</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+<h4 id="3-优势与注意事项">3. 优势与注意事项
+</h4><ul>
+<li><strong>唯一性保障</strong>：每个删除记录的 <code>is_delete</code> 值为唯一主键，避免联合索引冲突。</li>
+<li><strong>兼容性</strong>：适用于大多数数据库，需确保 <code>id</code> 与 <code>is_delete</code> 字段类型一致（如均为 <code>INT</code>）。</li>
+</ul>
+<h3 id="方案二利用-null-值特性mysql-场景">方案二：利用 <code>NULL</code> 值特性（MySQL 场景）
+</h3><p><strong>核心思路</strong>：使用 <code>NULL</code> 表示已删除状态，利用 MySQL 允许唯一索引中存在多个 <code>NULL</code> 的特性。</p>
+<h4 id="1-字段配置-1">1. 字段配置
+</h4><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@TableLogic</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#34;1&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">delval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#34;NULL&#34;</span><span class="p">)</span><span class="w"> </span><span class="c1">// value 设为未删除值（如 1）</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="kd">private</span><span class="w"> </span><span class="n">Integer</span><span class="w"> </span><span class="n">is_delete</span><span class="p">;</span><span class="w"> </span><span class="c1">// 允许为 NULL</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="2-数据形态">2. 数据形态
+</h4><div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>name</th>
+          <th>is_delete</th>
+          <th>状态</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>张三</td>
+          <td><code>1</code></td>
+          <td>未删除</td>
+      </tr>
+      <tr>
+          <td>张三</td>
+          <td><code>NULL</code></td>
+          <td>已删除</td>
+      </tr>
+      <tr>
+          <td>张三</td>
+          <td><code>NULL</code></td>
+          <td>已删除</td>
+      </tr>
+  </tbody>
+</table></div>
+<h4 id="3-适用场景">3. 适用场景
+</h4><ul>
+<li><strong>仅限 MySQL</strong>：其他数据库（如 Oracle）可能不允许唯一索引中存在多个 <code>NULL</code>。</li>
+<li><strong>字段允许为空</strong>：需将 <code>is_delete</code> 字段设置为可空（<code>NULLABLE</code>）。</li>
+</ul>
+<h2 id="三方案对比">三、方案对比
+</h2><div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>维度</th>
+          <th>方案一（动态值）</th>
+          <th>方案二（NULL 值）</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>兼容性</strong></td>
+          <td>全数据库兼容</td>
+          <td>仅限 MySQL（需验证其他数据库）</td>
+      </tr>
+      <tr>
+          <td><strong>字段要求</strong></td>
+          <td>需与主键类型一致</td>
+          <td>字段需允许 <code>NULL</code></td>
+      </tr>
+      <tr>
+          <td><strong>唯一性</strong></td>
+          <td>绝对唯一（基于主键）</td>
+          <td>依赖数据库特性（MySQL 允许）</td>
+      </tr>
+      <tr>
+          <td><strong>复杂度</strong></td>
+          <td>需配置 <code>delval</code> 表达式</td>
+          <td>简单配置</td>
+      </tr>
+  </tbody>
+</table></div>
+<h2 id="四总结">四、总结
+</h2><ul>
+<li><strong>优先选择方案一</strong>：通过主键动态生成已删除值，兼顾唯一性和兼容性，适用于大多数场景。</li>
+<li><strong>MySQL 特定场景可选方案二</strong>：需注意字段可空性和数据库兼容性限制。</li>
+</ul>
+<p><strong>最佳实践</strong>：在设计表结构时，提前规划逻辑删除字段的取值规则，结合业务场景选择合适的唯一标识策略，避免后续索引冲突问题。</p>
 
-</header>
-</article>
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/mybatis-plus/">MyBatis-Plus</a>
+        
+            <a href="/tags/mysql/">Mysql</a>
         
     </section>
-<footer class="site-footer">
+
+
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/p/mysql/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">MySQL</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    
+
+    <footer class="site-footer">
     <section class="copyright">
         &copy; 
         
@@ -479,6 +584,85 @@
         主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
     </section>
 </footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
 
             </main>
         </div>
