@@ -7,10 +7,10 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>XingSea</copyright>
-        <lastBuildDate>Mon, 09 Jun 2025 00:28:58 +0800</lastBuildDate><atom:link href="https://XingSea.github.io/tags/mysql/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sun, 09 Mar 2025 00:28:58 +0800</lastBuildDate><atom:link href="https://XingSea.github.io/tags/mysql/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>MyBatis-Plus</title>
         <link>https://XingSea.github.io/p/mybatis-plus/</link>
-        <pubDate>Mon, 09 Jun 2025 00:28:58 +0800</pubDate>
+        <pubDate>Sun, 09 Mar 2025 00:28:58 +0800</pubDate>
         
         <guid>https://XingSea.github.io/p/mybatis-plus/</guid>
         <description>&lt;h1 id=&#34;mybatis-plus-逻辑删除与唯一索引冲突问题解决方案&#34;&gt;MyBatis-Plus 逻辑删除与唯一索引冲突问题解决方案
@@ -165,7 +165,7 @@
         <item>
         <title>MySQL</title>
         <link>https://XingSea.github.io/p/mysql/</link>
-        <pubDate>Wed, 04 Jun 2025 16:10:33 +0800</pubDate>
+        <pubDate>Tue, 04 Feb 2025 16:10:33 +0800</pubDate>
         
         <guid>https://XingSea.github.io/p/mysql/</guid>
         <description>&lt;h1 id=&#34;mysql-基本-sql-语句使用详解&#34;&gt;MySQL 基本 SQL 语句使用详解
