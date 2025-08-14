@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="Linux 查询进程相关命令">
+<title>Linux_Select_Process_Cmd</title>
+
+<link rel='canonical' href='https://XingSea.github.io/p/linux_select_process_cmd/'>
+
+<link rel="stylesheet" href="/scss/style.min.d765f2f343b19f18ee6a9a4e4749f8abdbccfc01d8204548178c58f1fde36432.css"><meta property='og:title' content="Linux_Select_Process_Cmd">
+<meta property='og:description' content="Linux 查询进程相关命令">
+<meta property='og:url' content='https://XingSea.github.io/p/linux_select_process_cmd/'>
+<meta property='og:site_name' content='星海-XingSea'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='process' /><meta property='article:tag' content='Linux' /><meta property='article:tag' content='cmd' /><meta property='article:published_time' content='2025-08-14T09:53:31&#43;08:00'/><meta property='article:modified_time' content='2025-08-14T09:53:31&#43;08:00'/>
+<meta name="twitter:title" content="Linux_Select_Process_Cmd">
+<meta name="twitter:description" content="Linux 查询进程相关命令">
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_5ddc637f01a9b098.gif" width="300"
+                            height="306" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">😄</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">星海-XingSea</a></h1>
+            <h2 class="site-description">欢迎来到我的网站，此博客由【Hugo &#43; Stack】来进行搭建，主要分享个人生活和学习笔记</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://space.bilibili.com/333389264'
+                        target="_blank"
+                        title="bilibili"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-bilibili"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 10a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v6a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-6z" /><path d="M8 3l2 3" /><path d="M16 3l-2 3" /><path d="M9 13v-2" /><path d="M15 11v2" /></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com/XingSea'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://qm.qq.com/q/Ai4ohfD70c'
+                        target="_blank"
+                        title="QQ"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-qq"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 9.748a14.716 14.716 0 0 0 11.995 -.052c.275 -9.236 -11.104 -11.256 -11.995 .052z" /><path d="M18 10c.984 2.762 1.949 4.765 2 7.153c.014 .688 -.664 1.346 -1.184 .303c-.346 -.696 -.952 -1.181 -1.816 -1.456" /><path d="M17 16c.031 1.831 .147 3.102 -1 4" /><path d="M8 20c-1.099 -.87 -.914 -2.24 -1 -4" /><path d="M6 10c-.783 2.338 -1.742 4.12 -1.968 6.43c-.217 2.227 .716 1.644 1.16 .917c.296 -.487 .898 -.934 1.808 -1.347" /><path d="M15.898 13l-.476 -2" /><path d="M8 20l-1.5 1c-.5 .5 -.5 1 .5 1h10c1 0 1 -.5 .5 -1l-1.5 -1" /><path d="M13.75 7m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M10.25 7m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></svg>
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%8F%8B%E9%93%BE/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友链</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#1"><strong>1. <code>ps</code>（Process Status）—— 查看当前进程状态</strong></a>
+      <ol>
+        <li><a href="#常用选项"><strong>常用选项</strong>：</a></li>
+        <li><a href="#示例"><strong>示例</strong>：</a>
+          <ol>
+            <li><a href="#1-查看当前终端运行的进程"><strong>(1) 查看当前终端运行的进程</strong></a></li>
+            <li><a href="#2-查看所有进程完整信息"><strong>(2) 查看所有进程（完整信息）</strong></a></li>
+            <li><a href="#3-查看特定进程如"><strong>(3) 查看特定进程（如 <code>nginx</code>）</strong></a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#2"><strong>2. <code>top</code>（Table of Processes）—— 动态查看进程</strong></a>
+      <ol>
+        <li><a href="#常用交互命令"><strong>常用交互命令</strong>：</a></li>
+        <li><a href="#示例-1"><strong>示例</strong>：</a></li>
+      </ol>
+    </li>
+    <li><a href="#3"><strong>3. <code>htop</code>（Enhanced <code>top</code>）—— 增强版进程查看器</strong></a>
+      <ol>
+        <li><a href="#安装ubuntudebian"><strong>安装</strong>（Ubuntu/Debian）：</a></li>
+        <li><a href="#使用"><strong>使用</strong>：</a></li>
+      </ol>
+    </li>
+    <li><a href="#4"><strong>4. <code>pgrep</code>（Process Grep）—— 查找进程 ID</strong></a>
+      <ol>
+        <li><a href="#示例-2"><strong>示例</strong>：</a></li>
+      </ol>
+    </li>
+    <li><a href="#5"><strong>5. <code>pstree</code>（Process Tree）—— 树状显示进程</strong></a>
+      <ol>
+        <li><a href="#示例-3"><strong>示例</strong>：</a></li>
+      </ol>
+    </li>
+    <li><a href="#总结"><strong>总结</strong></a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/linux/" >
+                Linux
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/linux_select_process_cmd/">Linux_Select_Process_Cmd</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            Linux 查询进程相关命令
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">2025-08-14</time>
+            </div>
+        
+
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>在 Linux 中，查看进程的命令主要有 <code>ps</code>、<code>top</code>、<code>htop</code>、<code>pgrep</code>、<code>pstree</code> 等，下面详细解释每个命令的用途、参数和示例。</p>
+<hr>
+<h2 id="1"><strong>1. <code>ps</code>（Process Status）—— 查看当前进程状态</strong>
+</h2><p><strong>作用</strong>：显示当前终端或系统运行的进程信息。</p>
+<h3 id="常用选项"><strong>常用选项</strong>：
+</h3><div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>选项</th>
+          <th>完整单词</th>
+          <th>说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>-e</code></td>
+          <td><code>--every</code></td>
+          <td>显示 <strong>所有进程</strong>（包括其他用户的进程）</td>
+      </tr>
+      <tr>
+          <td><code>-f</code></td>
+          <td><code>--full</code></td>
+          <td>显示 <strong>完整格式</strong>（包括命令行参数）</td>
+      </tr>
+      <tr>
+          <td><code>-a</code></td>
+          <td><code>--all</code></td>
+          <td>显示 <strong>终端关联的所有进程</strong></td>
+      </tr>
+      <tr>
+          <td><code>-u</code></td>
+          <td><code>--user</code></td>
+          <td>显示 <strong>指定用户的进程</strong></td>
+      </tr>
+      <tr>
+          <td><code>-x</code></td>
+          <td><code>--no-ttys</code></td>
+          <td>显示 <strong>没有控制终端的进程</strong>（如守护进程）</td>
+      </tr>
+      <tr>
+          <td><code>-aux</code></td>
+          <td>组合选项</td>
+          <td>显示 <strong>所有用户的所有进程</strong>（常用）</td>
+      </tr>
+  </tbody>
+</table></div>
+<h3 id="示例"><strong>示例</strong>：
+</h3><h4 id="1-查看当前终端运行的进程"><strong>(1) 查看当前终端运行的进程</strong>
+</h4><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ps
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>输出：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">  PID TTY          TIME CMD
+</span></span><span class="line"><span class="cl"> 1234 pts/0    00:00:00 bash
+</span></span><span class="line"><span class="cl"> 5678 pts/0    00:00:00 ps
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>PID</code>：进程 ID</li>
+<li><code>TTY</code>：终端设备</li>
+<li><code>TIME</code>：CPU 占用时间</li>
+<li><code>CMD</code>：命令名称</li>
+</ul>
+<h4 id="2-查看所有进程完整信息"><strong>(2) 查看所有进程（完整信息）</strong>
+</h4><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ps -ef
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>输出：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">UID        PID  PPID  C STIME TTY          TIME CMD
+</span></span><span class="line"><span class="cl">root         1     0  0 10:00 ?        00:00:01 /sbin/init
+</span></span><span class="line"><span class="cl">root       123     1  0 10:00 ?        00:00:00 /usr/sbin/sshd
+</span></span><span class="line"><span class="cl">user      4567  1234  0 11:00 pts/0    00:00:00 nginx: worker process
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>UID</code>：用户 ID</li>
+<li><code>PPID</code>：父进程 ID</li>
+<li><code>STIME</code>：启动时间</li>
+<li><code>CMD</code>：完整命令</li>
+</ul>
+<h4 id="3-查看特定进程如"><strong>(3) 查看特定进程（如 <code>nginx</code>）</strong>
+</h4><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ps aux <span class="p">|</span> grep nginx
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>输出：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">root      1234  0.0  0.1 123456  7890 ?        Ss   12:34   0:00 nginx: master process
+</span></span><span class="line"><span class="cl">www-data  5678  0.0  0.2 234567  8901 ?        S    12:35   0:00 nginx: worker process
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>USER</code>：运行进程的用户</li>
+<li><code>%CPU</code>：CPU 占用率</li>
+<li><code>%MEM</code>：内存占用率</li>
+</ul>
+<hr>
+<h2 id="2"><strong>2. <code>top</code>（Table of Processes）—— 动态查看进程</strong>
+</h2><p><strong>作用</strong>：实时显示系统进程状态（类似 Windows 的任务管理器）。</p>
+<h3 id="常用交互命令"><strong>常用交互命令</strong>：
+</h3><div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>按键</th>
+          <th>功能</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>q</code></td>
+          <td>退出</td>
+      </tr>
+      <tr>
+          <td><code>k</code></td>
+          <td>杀死进程（输入 PID）</td>
+      </tr>
+      <tr>
+          <td><code>M</code></td>
+          <td>按内存排序</td>
+      </tr>
+      <tr>
+          <td><code>P</code></td>
+          <td>按 CPU 排序</td>
+      </tr>
+      <tr>
+          <td><code>1</code></td>
+          <td>显示所有 CPU 核心</td>
+      </tr>
+  </tbody>
+</table></div>
+<h3 id="示例-1"><strong>示例</strong>：
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">top
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>输出：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="n">top</span> <span class="o">-</span> <span class="mi">14</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mi">00</span> <span class="n">up</span> <span class="mi">1</span> <span class="n">day</span><span class="p">,</span>  <span class="mi">2</span><span class="p">:</span><span class="mi">30</span><span class="p">,</span>  <span class="mi">1</span> <span class="n">user</span><span class="p">,</span>  <span class="nb">load</span> <span class="n">average</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span> <span class="mf">0.10</span><span class="p">,</span> <span class="mf">0.05</span>
+</span></span><span class="line"><span class="cl"><span class="n">Tasks</span><span class="p">:</span> <span class="mi">120</span> <span class="n">total</span><span class="p">,</span>   <span class="mi">2</span> <span class="n">running</span><span class="p">,</span> <span class="mi">118</span> <span class="n">sleeping</span><span class="p">,</span>   <span class="mi">0</span> <span class="n">stopped</span><span class="p">,</span>   <span class="mi">0</span> <span class="n">zombie</span>
+</span></span><span class="line"><span class="cl"><span class="o">%</span><span class="n">Cpu</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>  <span class="mf">2.3</span> <span class="n">us</span><span class="p">,</span>  <span class="mf">1.0</span> <span class="n">sy</span><span class="p">,</span>  <span class="mf">0.0</span> <span class="n">ni</span><span class="p">,</span> <span class="mf">96.7</span> <span class="n">id</span><span class="p">,</span>  <span class="mf">0.0</span> <span class="n">wa</span><span class="p">,</span>  <span class="mf">0.0</span> <span class="n">hi</span><span class="p">,</span>  <span class="mf">0.0</span> <span class="n">si</span><span class="p">,</span>  <span class="mf">0.0</span> <span class="n">st</span>
+</span></span><span class="line"><span class="cl"><span class="n">KiB</span> <span class="n">Mem</span> <span class="p">:</span>  <span class="mi">8000000</span> <span class="n">total</span><span class="p">,</span>  <span class="mi">2000000</span> <span class="n">free</span><span class="p">,</span>  <span class="mi">3000000</span> <span class="n">used</span><span class="p">,</span>  <span class="mi">3000000</span> <span class="n">buff</span><span class="o">/</span><span class="n">cache</span>
+</span></span><span class="line"><span class="cl"><span class="n">KiB</span> <span class="n">Swap</span><span class="p">:</span>  <span class="mi">2000000</span> <span class="n">total</span><span class="p">,</span>  <span class="mi">1800000</span> <span class="n">free</span><span class="p">,</span>   <span class="mi">200000</span> <span class="n">used</span><span class="o">.</span>  <span class="mi">4000000</span> <span class="n">avail</span> <span class="n">Mem</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">PID</span> <span class="n">USER</span>      <span class="n">PR</span>  <span class="n">NI</span>    <span class="n">VIRT</span>    <span class="n">RES</span>    <span class="n">SHR</span> <span class="n">S</span>  <span class="o">%</span><span class="n">CPU</span> <span class="o">%</span><span class="n">MEM</span>     <span class="n">TIME</span><span class="o">+</span> <span class="n">COMMAND</span>
+</span></span><span class="line"><span class="cl"> <span class="mi">1234</span> <span class="n">root</span>      <span class="mi">20</span>   <span class="mi">0</span>  <span class="mi">300000</span>  <span class="mi">50000</span>  <span class="mi">10000</span> <span class="n">S</span>   <span class="mf">2.3</span>  <span class="mf">0.6</span>   <span class="mi">1</span><span class="p">:</span><span class="mf">23.45</span> <span class="n">nginx</span>
+</span></span><span class="line"><span class="cl"> <span class="mi">5678</span> <span class="n">user</span>      <span class="mi">20</span>   <span class="mi">0</span>  <span class="mi">400000</span>  <span class="mi">80000</span>  <span class="mi">20000</span> <span class="n">R</span>   <span class="mf">1.0</span>  <span class="mf">1.0</span>   <span class="mi">0</span><span class="p">:</span><span class="mf">12.34</span> <span class="n">python3</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>PR</code>：进程优先级</li>
+<li><code>NI</code>：Nice 值（进程优先级调整）</li>
+<li><code>VIRT</code>：虚拟内存占用</li>
+<li><code>RES</code>：物理内存占用</li>
+<li><code>SHR</code>：共享内存</li>
+</ul>
+<hr>
+<h2 id="3"><strong>3. <code>htop</code>（Enhanced <code>top</code>）—— 增强版进程查看器</strong>
+</h2><p><strong>作用</strong>：比 <code>top</code> 更直观，支持鼠标操作、颜色高亮。</p>
+<h3 id="安装ubuntudebian"><strong>安装</strong>（Ubuntu/Debian）：
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt install htop
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="使用"><strong>使用</strong>：
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">htop
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img src="https://htop.dev/images/htop-2.0.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="htop 示例"
+	
+	
+><br>
+（支持鼠标点击、树状视图、搜索进程）</p>
+<hr>
+<h2 id="4"><strong>4. <code>pgrep</code>（Process Grep）—— 查找进程 ID</strong>
+</h2><p><strong>作用</strong>：根据名称查找进程 ID（<code>PID</code>）。</p>
+<h3 id="示例-2"><strong>示例</strong>：
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pgrep nginx
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>输出：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">1234
+</span></span><span class="line"><span class="cl">5678
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>（返回 <code>nginx</code> 进程的 PID）</p>
+<hr>
+<h2 id="5"><strong>5. <code>pstree</code>（Process Tree）—— 树状显示进程</strong>
+</h2><p><strong>作用</strong>：以树状结构显示进程关系。</p>
+<h3 id="示例-3"><strong>示例</strong>：
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pstree -p
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>输出：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">systemd(1)─┬─sshd(123)───sshd(456)───bash(789)───pstree(999)
+</span></span><span class="line"><span class="cl">           ├─nginx(1234)─┬─nginx(5678)
+</span></span><span class="line"><span class="cl">           │            └─nginx(5679)
+</span></span><span class="line"><span class="cl">           └─dockerd(2345)───containerd(3456)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>-p</code>：显示 PID</li>
+<li>可以看到 <code>nginx</code> 的主进程和子进程关系</li>
+</ul>
+<hr>
+<h2 id="总结"><strong>总结</strong>
+</h2><div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>命令</th>
+          <th>作用</th>
+          <th>示例</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>ps</code></td>
+          <td>查看进程状态</td>
+          <td><code>ps aux | grep nginx</code></td>
+      </tr>
+      <tr>
+          <td><code>top</code></td>
+          <td>实时监控进程</td>
+          <td><code>top</code></td>
+      </tr>
+      <tr>
+          <td><code>htop</code></td>
+          <td>增强版 <code>top</code></td>
+          <td><code>htop</code></td>
+      </tr>
+      <tr>
+          <td><code>pgrep</code></td>
+          <td>查找进程 PID</td>
+          <td><code>pgrep nginx</code></td>
+      </tr>
+      <tr>
+          <td><code>pstree</code></td>
+          <td>树状显示进程</td>
+          <td><code>pstree -p</code></td>
+      </tr>
+  </tbody>
+</table></div>
+<p>这些命令是 Linux 系统管理和故障排查的必备工具！ 🚀</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/process/">Process</a>
+        
+            <a href="/tags/linux/">Linux</a>
+        
+            <a href="/tags/cmd/">Cmd</a>
+        
+    </section>
+
+
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+     
+    
+        
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2025 XingSea
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.99ce1801c4bad426a42fc436add4721e149159dbb598636e9578fd59cf778c83.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
+<div id="aplayer"></div>
+
+<script>
+    const home =  null ;
+    console.log(home);
+    
+    const ap = new APlayer({
+    container: document.getElementById('aplayer'),
+    
+    loop: 'one',
+    fixed: true,
+    audio: [{
+        name: '两难',
+        artist: '加木',
+        url: 'music/两难/song.mp3',
+        cover: 'music/两难/cover.jpg'
+    }]
+});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script>
+
+    
+    <script src=https://XingSea.github.io/js/topbar.min.js></script>
+
+<script>
+    var pjax = new Pjax({
+  selectors: [".main-container", ".js-Pjax"]
+})
+
+    pjax._handleResponse = pjax.handleResponse;
+    pjax.handleResponse = function(responseText, request, href, options) {
+        if (request.responseText.match("<html")) {
+            if (responseText) {
+                
+                let newDom = new DOMParser().parseFromString(responseText, 'text/html');
+                
+                let bodyClass = newDom.body.className;
+                document.body.setAttribute("class", bodyClass)
+                
+                
+                pjax._handleResponse(responseText, request, href, options);
+                
+            }
+        } else {
+            
+        }
+    }
+
+        
+    topbar.config({
+        barColors: {
+            '0': 'rgba(255,  255, 255, 1)', 
+            '1.0': 'rgba(0, 149, 234,  1)' 
+        }
+    })
+	
+    document.addEventListener('pjax:send', () => {
+        
+        topbar.show();
+    })
+
+
+    document.addEventListener('pjax:complete', ()=>{
+        window.Stack.init();
+        topbar.hide();
+    })
+</script>
+
+
+<div class="js-Pjax">
+    
+<div>
+
+
+<script>
+    
+const live2d_path = 'https://fastly.jsdelivr.net/npm/live2d-widgets@1.0.0-rc.2/dist/';
+
+ const cssPath = "https://XingSea.github.io/waifu/waifu.css";
+ const tipsPath = "https://XingSea.github.io/waifu/waifu-tips.json";
+
+
+function loadExternalResource(url, type) {
+  return new Promise((resolve, reject) => {
+    let tag;
+
+    if (type === 'css') {
+      tag = document.createElement('link');
+      tag.rel = 'stylesheet';
+      tag.href = url;
+    }
+    else if (type === 'js') {
+      tag = document.createElement('script');
+      tag.type = 'module';
+      tag.src = url;
+    }
+    if (tag) {
+      tag.onload = () => resolve(url);
+      tag.onerror = () => reject(url);
+      document.head.appendChild(tag);
+    }
+  });
+}
+
+
+
+(async () => {
+
+  const OriginalImage = window.Image;
+  window.Image = function(...args) {
+    const img = new OriginalImage(...args);
+    img.crossOrigin = "anonymous";
+    return img;
+  };
+  window.Image.prototype = OriginalImage.prototype;
+
+  await Promise.all([
+    loadExternalResource(cssPath, 'css'),
+    loadExternalResource(live2d_path + 'waifu-tips.js', 'js'),
+  ]);
+  
+  initWidget({
+    waifuPath: tipsPath,
+    cdnPath: 'https://cdn.jsdelivr.net/gh/XingSea/static-resource@v1.0.0',
+    cubism2Path: live2d_path + 'live2d.min.js',
+    cubism5Path: 'https://cubism.live2d.com/sdk-web/cubismcore/live2dcubismcore.min.js',
+    tools: ['hitokoto', 'asteroids', 'switch-model', 'switch-texture','info', 'quit'],
+    logLevel: 'warn',
+    drag: false,
+  });
+
+  
+  
+})();
+
+</script>
+
+
+
+
+ 
+
+
+
+
+<div id="particles-js"></div>
+
+<script src=https://XingSea.github.io/background/particles.min.js></script>
+<script>
+  particlesJS.load('particles-js', "https://XingSea.github.io/background/particlesjs-config.json", function() {
+    console.log('particles.js loaded - callback');
+  });
+</script>
+
+<style>
+  #particles-js {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: -1;
+  }
+</style>
+
+    </body>
+</html>
