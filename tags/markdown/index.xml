@@ -8,11 +8,11 @@
         <language>zh-cn</language>
         <copyright>XingSea</copyright>
         <lastBuildDate>Tue, 04 Feb 2025 16:10:33 +0800</lastBuildDate><atom:link href="https://XingSea.github.io/tags/markdown/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>MySQL</title>
-        <link>https://XingSea.github.io/p/mysql/</link>
+        <title>MySQL 基本 SQL 语句</title>
+        <link>https://XingSea.github.io/p/mysql-%E5%9F%BA%E6%9C%AC-sql-%E8%AF%AD%E5%8F%A5/</link>
         <pubDate>Tue, 04 Feb 2025 16:10:33 +0800</pubDate>
         
-        <guid>https://XingSea.github.io/p/mysql/</guid>
+        <guid>https://XingSea.github.io/p/mysql-%E5%9F%BA%E6%9C%AC-sql-%E8%AF%AD%E5%8F%A5/</guid>
         <description>&lt;h1 id=&#34;mysql-基本-sql-语句使用详解&#34;&gt;MySQL 基本 SQL 语句使用详解
 &lt;/h1&gt;&lt;p&gt;在数据库管理系统中，MySQL 凭借其开源、高效、稳定等特点，成为众多开发者的首选。SQL（Structured Query Language）作为操作 MySQL 数据库的核心语言，掌握其基本语句的使用是进行数据库开发与管理的基础。本文将详细介绍 MySQL 中常用的基本 SQL 语句及其使用方法。&lt;/p&gt;
 &lt;h2 id=&#34;一数据库操作&#34;&gt;一、数据库操作

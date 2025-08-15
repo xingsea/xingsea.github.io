@@ -8,11 +8,11 @@
         <language>zh-cn</language>
         <copyright>XingSea</copyright>
         <lastBuildDate>Sun, 09 Mar 2025 00:28:58 +0800</lastBuildDate><atom:link href="https://XingSea.github.io/tags/mysql/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>MyBatis-Plus</title>
-        <link>https://XingSea.github.io/p/mybatis-plus/</link>
+        <title>MyBatis-Plus 逻辑删除与唯一索引冲突问题解决方案</title>
+        <link>https://XingSea.github.io/p/mybatis-plus-%E9%80%BB%E8%BE%91%E5%88%A0%E9%99%A4%E4%B8%8E%E5%94%AF%E4%B8%80%E7%B4%A2%E5%BC%95%E5%86%B2%E7%AA%81%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</link>
         <pubDate>Sun, 09 Mar 2025 00:28:58 +0800</pubDate>
         
-        <guid>https://XingSea.github.io/p/mybatis-plus/</guid>
+        <guid>https://XingSea.github.io/p/mybatis-plus-%E9%80%BB%E8%BE%91%E5%88%A0%E9%99%A4%E4%B8%8E%E5%94%AF%E4%B8%80%E7%B4%A2%E5%BC%95%E5%86%B2%E7%AA%81%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</guid>
         <description>&lt;h1 id=&#34;mybatis-plus-逻辑删除与唯一索引冲突问题解决方案&#34;&gt;MyBatis-Plus 逻辑删除与唯一索引冲突问题解决方案
 &lt;/h1&gt;&lt;h2 id=&#34;一问题背景&#34;&gt;一、问题背景
 &lt;/h2&gt;&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：MyBatis-Plus（MP）、逻辑删除、唯一索引、数据插入冲突&lt;/p&gt;
@@ -163,11 +163,11 @@
 </description>
         </item>
         <item>
-        <title>MySQL</title>
-        <link>https://XingSea.github.io/p/mysql/</link>
+        <title>MySQL 基本 SQL 语句</title>
+        <link>https://XingSea.github.io/p/mysql-%E5%9F%BA%E6%9C%AC-sql-%E8%AF%AD%E5%8F%A5/</link>
         <pubDate>Tue, 04 Feb 2025 16:10:33 +0800</pubDate>
         
-        <guid>https://XingSea.github.io/p/mysql/</guid>
+        <guid>https://XingSea.github.io/p/mysql-%E5%9F%BA%E6%9C%AC-sql-%E8%AF%AD%E5%8F%A5/</guid>
         <description>&lt;h1 id=&#34;mysql-基本-sql-语句使用详解&#34;&gt;MySQL 基本 SQL 语句使用详解
 &lt;/h1&gt;&lt;p&gt;在数据库管理系统中，MySQL 凭借其开源、高效、稳定等特点，成为众多开发者的首选。SQL（Structured Query Language）作为操作 MySQL 数据库的核心语言，掌握其基本语句的使用是进行数据库开发与管理的基础。本文将详细介绍 MySQL 中常用的基本 SQL 语句及其使用方法。&lt;/p&gt;
 &lt;h2 id=&#34;一数据库操作&#34;&gt;一、数据库操作

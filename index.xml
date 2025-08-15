@@ -8,11 +8,11 @@
         <language>zh-cn</language>
         <copyright>XingSea</copyright>
         <lastBuildDate>Fri, 15 Aug 2025 10:59:18 +0800</lastBuildDate><atom:link href="https://XingSea.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>Var_Let_Const</title>
-        <link>https://XingSea.github.io/p/var_let_const/</link>
+        <title>let、const、var 的区别</title>
+        <link>https://XingSea.github.io/p/letconstvar-%E7%9A%84%E5%8C%BA%E5%88%AB/</link>
         <pubDate>Fri, 15 Aug 2025 10:59:18 +0800</pubDate>
         
-        <guid>https://XingSea.github.io/p/var_let_const/</guid>
+        <guid>https://XingSea.github.io/p/letconstvar-%E7%9A%84%E5%8C%BA%E5%88%AB/</guid>
         <description>&lt;h1 id=&#34;letconst-和-var-的详细区别&#34;&gt;&lt;code&gt;let&lt;/code&gt;、&lt;code&gt;const&lt;/code&gt; 和 &lt;code&gt;var&lt;/code&gt; 的详细区别
 &lt;/h1&gt;&lt;p&gt;在 JavaScript 中，变量声明的方式主要有三种：&lt;code&gt;var&lt;/code&gt;、&lt;code&gt;let&lt;/code&gt; 和 &lt;code&gt;const&lt;/code&gt;。它们在作用域、提升、重复声明等方面有显著差异。下面我将详细解释它们的区别。&lt;/p&gt;
 &lt;h2 id=&#34;1-作用域-scope&#34;&gt;1. 作用域 (Scope)
@@ -316,11 +316,11 @@
 </description>
         </item>
         <item>
-        <title>Linux_Grep_Cmd</title>
-        <link>https://XingSea.github.io/p/linux_grep_cmd/</link>
+        <title>Linux Grep命令的使用</title>
+        <link>https://XingSea.github.io/p/linux-grep%E5%91%BD%E4%BB%A4%E7%9A%84%E4%BD%BF%E7%94%A8/</link>
         <pubDate>Thu, 14 Aug 2025 10:26:14 +0800</pubDate>
         
-        <guid>https://XingSea.github.io/p/linux_grep_cmd/</guid>
+        <guid>https://XingSea.github.io/p/linux-grep%E5%91%BD%E4%BB%A4%E7%9A%84%E4%BD%BF%E7%94%A8/</guid>
         <description>&lt;p&gt;&lt;code&gt;grep&lt;/code&gt; 是 &lt;strong&gt;Global Regular Expression Print&lt;/strong&gt;（全局正则表达式打印）的缩写，是 Linux/Unix 系统中一个强大的 &lt;strong&gt;文本搜索工具&lt;/strong&gt;，用于在文件或输入数据中查找匹配特定模式（字符串或正则表达式）的行。&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2 id=&#34;1&#34;&gt;&lt;strong&gt;1. &lt;code&gt;grep&lt;/code&gt; 的基本用法&lt;/strong&gt;
@@ -561,11 +561,11 @@
 </description>
         </item>
         <item>
-        <title>Linux_Select_Process_Cmd</title>
-        <link>https://XingSea.github.io/p/linux_select_process_cmd/</link>
+        <title>Linux 查询进程相关命令</title>
+        <link>https://XingSea.github.io/p/linux-%E6%9F%A5%E8%AF%A2%E8%BF%9B%E7%A8%8B%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4/</link>
         <pubDate>Thu, 14 Aug 2025 09:53:31 +0800</pubDate>
         
-        <guid>https://XingSea.github.io/p/linux_select_process_cmd/</guid>
+        <guid>https://XingSea.github.io/p/linux-%E6%9F%A5%E8%AF%A2%E8%BF%9B%E7%A8%8B%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4/</guid>
         <description>&lt;p&gt;在 Linux 中，查看进程的命令主要有 &lt;code&gt;ps&lt;/code&gt;、&lt;code&gt;top&lt;/code&gt;、&lt;code&gt;htop&lt;/code&gt;、&lt;code&gt;pgrep&lt;/code&gt;、&lt;code&gt;pstree&lt;/code&gt; 等，下面详细解释每个命令的用途、参数和示例。&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2 id=&#34;1&#34;&gt;&lt;strong&gt;1. &lt;code&gt;ps&lt;/code&gt;（Process Status）—— 查看当前进程状态&lt;/strong&gt;
@@ -900,11 +900,11 @@
 </description>
         </item>
         <item>
-        <title>MyBatis-Plus</title>
-        <link>https://XingSea.github.io/p/mybatis-plus/</link>
+        <title>MyBatis-Plus 逻辑删除与唯一索引冲突问题解决方案</title>
+        <link>https://XingSea.github.io/p/mybatis-plus-%E9%80%BB%E8%BE%91%E5%88%A0%E9%99%A4%E4%B8%8E%E5%94%AF%E4%B8%80%E7%B4%A2%E5%BC%95%E5%86%B2%E7%AA%81%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</link>
         <pubDate>Sun, 09 Mar 2025 00:28:58 +0800</pubDate>
         
-        <guid>https://XingSea.github.io/p/mybatis-plus/</guid>
+        <guid>https://XingSea.github.io/p/mybatis-plus-%E9%80%BB%E8%BE%91%E5%88%A0%E9%99%A4%E4%B8%8E%E5%94%AF%E4%B8%80%E7%B4%A2%E5%BC%95%E5%86%B2%E7%AA%81%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</guid>
         <description>&lt;h1 id=&#34;mybatis-plus-逻辑删除与唯一索引冲突问题解决方案&#34;&gt;MyBatis-Plus 逻辑删除与唯一索引冲突问题解决方案
 &lt;/h1&gt;&lt;h2 id=&#34;一问题背景&#34;&gt;一、问题背景
 &lt;/h2&gt;&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：MyBatis-Plus（MP）、逻辑删除、唯一索引、数据插入冲突&lt;/p&gt;
@@ -1055,11 +1055,11 @@
 </description>
         </item>
         <item>
-        <title>MySQL</title>
-        <link>https://XingSea.github.io/p/mysql/</link>
+        <title>MySQL 基本 SQL 语句</title>
+        <link>https://XingSea.github.io/p/mysql-%E5%9F%BA%E6%9C%AC-sql-%E8%AF%AD%E5%8F%A5/</link>
         <pubDate>Tue, 04 Feb 2025 16:10:33 +0800</pubDate>
         
-        <guid>https://XingSea.github.io/p/mysql/</guid>
+        <guid>https://XingSea.github.io/p/mysql-%E5%9F%BA%E6%9C%AC-sql-%E8%AF%AD%E5%8F%A5/</guid>
         <description>&lt;h1 id=&#34;mysql-基本-sql-语句使用详解&#34;&gt;MySQL 基本 SQL 语句使用详解
 &lt;/h1&gt;&lt;p&gt;在数据库管理系统中，MySQL 凭借其开源、高效、稳定等特点，成为众多开发者的首选。SQL（Structured Query Language）作为操作 MySQL 数据库的核心语言，掌握其基本语句的使用是进行数据库开发与管理的基础。本文将详细介绍 MySQL 中常用的基本 SQL 语句及其使用方法。&lt;/p&gt;
 &lt;h2 id=&#34;一数据库操作&#34;&gt;一、数据库操作

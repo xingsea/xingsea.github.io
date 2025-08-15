@@ -8,11 +8,11 @@
         <language>zh-cn</language>
         <copyright>XingSea</copyright>
         <lastBuildDate>Thu, 14 Aug 2025 10:26:14 +0800</lastBuildDate><atom:link href="https://XingSea.github.io/categories/linux/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>Linux_Grep_Cmd</title>
-        <link>https://XingSea.github.io/p/linux_grep_cmd/</link>
+        <title>Linux Grep命令的使用</title>
+        <link>https://XingSea.github.io/p/linux-grep%E5%91%BD%E4%BB%A4%E7%9A%84%E4%BD%BF%E7%94%A8/</link>
         <pubDate>Thu, 14 Aug 2025 10:26:14 +0800</pubDate>
         
-        <guid>https://XingSea.github.io/p/linux_grep_cmd/</guid>
+        <guid>https://XingSea.github.io/p/linux-grep%E5%91%BD%E4%BB%A4%E7%9A%84%E4%BD%BF%E7%94%A8/</guid>
         <description>&lt;p&gt;&lt;code&gt;grep&lt;/code&gt; 是 &lt;strong&gt;Global Regular Expression Print&lt;/strong&gt;（全局正则表达式打印）的缩写，是 Linux/Unix 系统中一个强大的 &lt;strong&gt;文本搜索工具&lt;/strong&gt;，用于在文件或输入数据中查找匹配特定模式（字符串或正则表达式）的行。&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2 id=&#34;1&#34;&gt;&lt;strong&gt;1. &lt;code&gt;grep&lt;/code&gt; 的基本用法&lt;/strong&gt;
@@ -253,11 +253,11 @@
 </description>
         </item>
         <item>
-        <title>Linux_Select_Process_Cmd</title>
-        <link>https://XingSea.github.io/p/linux_select_process_cmd/</link>
+        <title>Linux 查询进程相关命令</title>
+        <link>https://XingSea.github.io/p/linux-%E6%9F%A5%E8%AF%A2%E8%BF%9B%E7%A8%8B%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4/</link>
         <pubDate>Thu, 14 Aug 2025 09:53:31 +0800</pubDate>
         
-        <guid>https://XingSea.github.io/p/linux_select_process_cmd/</guid>
+        <guid>https://XingSea.github.io/p/linux-%E6%9F%A5%E8%AF%A2%E8%BF%9B%E7%A8%8B%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4/</guid>
         <description>&lt;p&gt;在 Linux 中，查看进程的命令主要有 &lt;code&gt;ps&lt;/code&gt;、&lt;code&gt;top&lt;/code&gt;、&lt;code&gt;htop&lt;/code&gt;、&lt;code&gt;pgrep&lt;/code&gt;、&lt;code&gt;pstree&lt;/code&gt; 等，下面详细解释每个命令的用途、参数和示例。&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2 id=&#34;1&#34;&gt;&lt;strong&gt;1. &lt;code&gt;ps&lt;/code&gt;（Process Status）—— 查看当前进程状态&lt;/strong&gt;
