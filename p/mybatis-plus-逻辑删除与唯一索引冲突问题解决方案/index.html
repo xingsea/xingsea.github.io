@@ -409,6 +409,26 @@
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="kd">private</span><span class="w"> </span><span class="n">Integer</span><span class="w"> </span><span class="n">is_delete</span><span class="p">;</span><span class="w"> </span><span class="c1">// 字段类型需与 id 一致（如 Integer）</span><span class="w">
 </span></span></span></code></pre></td></tr></table>
 </div>
+</div><p>全局配置逻辑删除（推荐）
+在 application.yml（或 application.properties）中配置：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">mybatis-plus</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">global-config</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">db-config</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">logic-delete-field</span><span class="p">:</span><span class="w"> </span><span class="l">isDelete </span><span class="w"> </span><span class="c"># 逻辑删除字段名（与实体类字段一致）</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">logic-not-delete-value</span><span class="p">:</span><span class="w"> </span><span class="m">0</span><span class="w">     </span><span class="c"># 未删除时的值</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">logic-delete-value</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;id&#34;</span><span class="w">      </span><span class="c"># 已删除时的值（动态赋值为记录的id）</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
 </div><h4 id="2-执行逻辑说明">2. 执行逻辑说明
 </h4><ul>
 <li>
