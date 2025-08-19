@@ -13,48 +13,53 @@
         <pubDate>Sun, 09 Mar 2025 00:28:58 +0800</pubDate>
         
         <guid>https://XingSea.github.io/p/mybatis-plus-%E9%80%BB%E8%BE%91%E5%88%A0%E9%99%A4%E4%B8%8E%E5%94%AF%E4%B8%80%E7%B4%A2%E5%BC%95%E5%86%B2%E7%AA%81%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</guid>
-        <description>&lt;h1 id=&#34;mybatis-plus-逻辑删除与唯一索引冲突问题解决方案&#34;&gt;MyBatis-Plus 逻辑删除与唯一索引冲突问题解决方案
-&lt;/h1&gt;&lt;h2 id=&#34;一问题背景&#34;&gt;一、问题背景
-&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：MyBatis-Plus（MP）、逻辑删除、唯一索引、数据插入冲突&lt;/p&gt;
-&lt;h3 id=&#34;问题描述&#34;&gt;问题描述
-&lt;/h3&gt;&lt;p&gt;MyBatis-Plus 默认逻辑删除规则：&lt;/p&gt;
+        <description>&lt;p&gt;好的，我们来给这篇技术文案加点“灵魂”和“幽默感”，让它读起来更有作者的个人风格，同时保持专业性和清晰度。主要改动在于措辞、语气和加入一些“内心戏”式的调侃。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h1 id=&#34;mybatis-plus-逻辑删除与唯一索引当删了但没完全删撞上唯一的倔强&#34;&gt;MyBatis-Plus 逻辑删除与唯一索引：当“删了但没完全删”撞上“唯一”的倔强
+&lt;/h1&gt;&lt;h2 id=&#34;一问题背景一个薛定谔的张三引发的血案&#34;&gt;一、问题背景：一个“薛定谔的张三”引发的血案
+&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：MyBatis-Plus (MP, 程序员的贴心小棉袄)、逻辑删除 (删了但数据库里还躺着)、唯一索引 (数据库的倔强守卫)、数据冲突 (守卫说：“达咩！”)&lt;/p&gt;
+&lt;h3 id=&#34;问题描述张三的奇幻漂流&#34;&gt;问题描述：张三的奇幻漂流
+&lt;/h3&gt;&lt;p&gt;MP 默认的逻辑删除规则，简单粗暴得像二进制世界：&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;code&gt;1&lt;/code&gt; 表示已删除（逻辑删除状态）&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;0&lt;/code&gt; 表示未删除（正常状态）&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;1&lt;/code&gt; = “已删除” (灵魂已飞升，肉身还在)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;0&lt;/code&gt; = “未删除” (活蹦乱跳)&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;场景复现&lt;/strong&gt;：&lt;br&gt;
-表结构：&lt;code&gt;user&lt;/code&gt; 表包含 &lt;code&gt;name&lt;/code&gt;（唯一索引）和 &lt;code&gt;is_delete&lt;/code&gt;（逻辑删除字段）&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;案发现场还原 (&lt;code&gt;user&lt;/code&gt; 表主演：&lt;code&gt;name&lt;/code&gt; - 唯一索引 &amp;amp; &lt;code&gt;is_delete&lt;/code&gt; - 灵魂状态指示器)&lt;/strong&gt;：&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;首次插入&lt;/strong&gt;：插入 &lt;code&gt;name=张三&lt;/code&gt;，&lt;code&gt;is_delete=0&lt;/code&gt;（未删除）。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;逻辑删除&lt;/strong&gt;：将该记录 &lt;code&gt;is_delete&lt;/code&gt; 更新为 &lt;code&gt;1&lt;/code&gt;（标记删除）。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;再次插入&lt;/strong&gt;：尝试插入 &lt;code&gt;name=张三&lt;/code&gt;，因 &lt;code&gt;name&lt;/code&gt; 唯一索引冲突报错。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;初次登场&lt;/strong&gt;：插入 &lt;code&gt;name=张三&lt;/code&gt;，&lt;code&gt;is_delete=0&lt;/code&gt; (一个鲜活的张三诞生了！🎉)。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;“被消失”&lt;/strong&gt;：把这条记录的 &lt;code&gt;is_delete&lt;/code&gt; 改成 &lt;code&gt;1&lt;/code&gt; (张三被“逻辑删除”了，但数据库里他还在喘气&amp;hellip;或者说，在躺尸？)。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;“复活？不，是克隆！”&lt;/strong&gt;：尝试再次插入 &lt;code&gt;name=张三&lt;/code&gt; (新张三想入驻)。结果&amp;hellip; &lt;strong&gt;砰！&lt;/strong&gt; 唯一索引守卫跳出来：“&lt;code&gt;name&lt;/code&gt; 唯一！这里已经有个张三了(虽然躺着)，不准进！” 💥 &lt;strong&gt;(报错：Duplicate entry &amp;lsquo;张三&amp;rsquo;)&lt;/strong&gt;&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;&lt;strong&gt;初步解决方案&lt;/strong&gt;：&lt;br&gt;
-创建 &lt;code&gt;(name, is_delete)&lt;/code&gt; 联合唯一索引，允许不同 &lt;code&gt;is_delete&lt;/code&gt; 值的相同 &lt;code&gt;name&lt;/code&gt; 存在。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;初级程序员の灵光一闪 (往往伴随隐患)&lt;/strong&gt;：
+“简单！给 &lt;code&gt;(name, is_delete)&lt;/code&gt; 建个联合唯一索引！这样活张三 (&lt;code&gt;0&lt;/code&gt;) 和死张三 (&lt;code&gt;1&lt;/code&gt;) 就能和平共处了嘛！”&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;新问题&lt;/strong&gt;：当第二次插入的 &lt;code&gt;张三&lt;/code&gt; 被逻辑删除时，会产生两条 &lt;code&gt;name=张三&lt;/code&gt; 且 &lt;code&gt;is_delete=1&lt;/code&gt; 的记录，再次触发联合索引冲突。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;新の噩梦&lt;/strong&gt;：当第二个“张三”也被“逻辑删除” (变成 &lt;code&gt;is_delete=1&lt;/code&gt;) 时&amp;hellip; 数据库里出现了 &lt;strong&gt;两个 &lt;code&gt;name=张三&lt;/code&gt; 且 &lt;code&gt;is_delete=1&lt;/code&gt; 的“僵尸”记录&lt;/strong&gt;。联合唯一索引守卫再次暴怒：“说好的唯一呢？！两个死张三也不行！打架了打架了！” 💥 &lt;strong&gt;(再次冲突)&lt;/strong&gt;。 作者内心OS： &lt;em&gt;“这逻辑删除，删了个寂寞？删出双胞胎僵尸了可还行？”&lt;/em&gt; 😅&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&#34;二解决方案&#34;&gt;二、解决方案
-&lt;/h2&gt;&lt;h3 id=&#34;方案一动态变更逻辑删除值推荐&#34;&gt;方案一：动态变更逻辑删除值（推荐）
-&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;核心思路&lt;/strong&gt;：使用唯一标识（如主键 &lt;code&gt;id&lt;/code&gt;）作为已删除状态值，避免重复。&lt;/p&gt;
-&lt;h4 id=&#34;1-字段配置&#34;&gt;1. 字段配置
-&lt;/h4&gt;&lt;p&gt;在逻辑删除字段上添加 &lt;code&gt;@TableLogic&lt;/code&gt; 注解，指定：&lt;/p&gt;
+&lt;h2 id=&#34;二解决方案让僵尸拥有身份证-or-变成空气&#34;&gt;二、解决方案：让“僵尸”拥有身份证 or 变成“空气”
+&lt;/h2&gt;&lt;h3 id=&#34;方案一组合索引-适合特定场景非万能&#34;&gt;方案一：组合索引 (适合特定场景，非万能)
+&lt;/h3&gt;&lt;p&gt;建立 &lt;code&gt;(其他字段, 唯一字段)&lt;/code&gt; 的组合唯一索引，比如 &lt;code&gt;(tenant_id, user_account)&lt;/code&gt;。这相当于给“张三”加了个前缀，比如“A公司-张三”和“B公司-张三”就是两个不同的“张三”了。&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;code&gt;value&lt;/code&gt;：未删除值（如 &lt;code&gt;0&lt;/code&gt;）&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;delval&lt;/code&gt;：已删除值（使用主键 &lt;code&gt;id&lt;/code&gt;，需与字段类型一致）&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;作者点评&lt;/strong&gt;： &lt;em&gt;“这招属于‘打不过就加入’——既然名字会重复，咱就搞个更复杂的唯一标识呗！适合有天然分组字段（如租户ID）的场景，简单粗暴有效。要是没有&amp;hellip; 咱还是看看下面更通用的魔法吧。”&lt;/em&gt;&lt;/li&gt;
 &lt;/ul&gt;
+&lt;h3 id=&#34;方案二-重头戏动态变更逻辑删除值---给僵尸发身份证&#34;&gt;方案二 (重头戏)：动态变更逻辑删除值 - 给“僵尸”发身份证！
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;核心魔法&lt;/strong&gt;：&lt;strong&gt;不让所有“死掉”的记录都用 &lt;code&gt;1&lt;/code&gt; 躺平！&lt;/strong&gt; 而是用它们自己&lt;strong&gt;唯一的“身份证号”（主键 &lt;code&gt;id&lt;/code&gt;）&lt;/strong&gt; 作为死亡标记。这样，每个“僵尸”都是独一无二的，联合索引守卫就无话可说了。&lt;/p&gt;
+&lt;h4 id=&#34;1-字段配置-注解流&#34;&gt;1. 字段配置 (注解流)
+&lt;/h4&gt;&lt;p&gt;在逻辑删除字段上召唤 &lt;code&gt;@TableLogic&lt;/code&gt;：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nd&#34;&gt;@TableLogic&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;value&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;0&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;delval&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;#{id}&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;// 或全局配置&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;private&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Integer&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;is_delete&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;// 字段类型需与 id 一致（如 Integer）&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nd&#34;&gt;@TableLogic&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;value&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;0&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;delval&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;#{id}&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;// 活人是0，死人就用自己的id当墓碑号！妙啊！&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;private&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Integer&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;is_delete&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;// 切记：字段类型要和id一致（比如都是Integer）&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;全局配置逻辑删除（推荐）
-在 application.yml（或 application.properties）中配置：&lt;/p&gt;
+&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;作者碎碎念&lt;/strong&gt;： &lt;em&gt;“看这个 &lt;code&gt;#{id}&lt;/code&gt;，MP 的 SpEL 表达式小魔法，真香！相当于告诉MP：删的时候，别写死‘1’，把这条记录自己的id填进去！”&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;2-全局配置-推荐省心流&#34;&gt;2. 全局配置 (推荐，省心流)
+&lt;/h4&gt;&lt;p&gt;在 &lt;code&gt;application.yml&lt;/code&gt; 里施展全局咒语：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -68,118 +73,158 @@
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;mybatis-plus&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;global-config&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;db-config&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;logic-delete-field&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;isDelete &lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;c&#34;&gt;# 逻辑删除字段名（与实体类字段一致）&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;logic-not-delete-value&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;     &lt;/span&gt;&lt;span class=&#34;c&#34;&gt;# 未删除时的值&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;logic-delete-value&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;id&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;c&#34;&gt;# 已删除时的值（动态赋值为记录的id）&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;logic-delete-field&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;isDelete &lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;c&#34;&gt;# 告诉MP哪个字段管“生死”&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;logic-not-delete-value&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;     &lt;/span&gt;&lt;span class=&#34;c&#34;&gt;# 活着的标志 (0)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;logic-delete-value&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;id&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;c&#34;&gt;# 核心咒语！死了就用自己的id当标记！&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h4 id=&#34;2-执行逻辑说明&#34;&gt;2. 执行逻辑说明
+&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;作者点赞&lt;/strong&gt;： &lt;em&gt;“全局配置，yyds！一劳永逸，不用在每个实体上写注解，懒人福音！”&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;3-执行逻辑-数据库视角&#34;&gt;3. 执行逻辑 (数据库视角)
 &lt;/h4&gt;&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;查询&lt;/strong&gt;：仅返回 &lt;code&gt;is_delete = 0&lt;/code&gt; 的记录（未删除）。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;删除&lt;/strong&gt;：将 &lt;code&gt;is_delete&lt;/code&gt; 更新为当前记录的 &lt;code&gt;id&lt;/code&gt;（唯一值）。&lt;/p&gt;
+&lt;li&gt;&lt;strong&gt;查询 (&lt;code&gt;SELECT * FROM user WHERE ...&lt;/code&gt;)&lt;/strong&gt;：MP 自动附加 &lt;code&gt;AND is_delete = 0&lt;/code&gt;。只查“活人”，世界清净了。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;删除 (&lt;code&gt;userMapper.deleteById(123)&lt;/code&gt;)&lt;/strong&gt;：MP 执行的魔法其实是：
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;-- 逻辑删除执行 SQL
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;UPDATE&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;user&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;SET&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;is_delete&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;#&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;id&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;WHERE&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;id&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;#&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;currentId&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;UPDATE&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;user&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;SET&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;is_delete&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;123&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;WHERE&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;id&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;123&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;-- 把id=123这条记录的is_delete改成它自己的id(123)
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;/li&gt;
+&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;作者脑补&lt;/strong&gt;： &lt;em&gt;“记录123：我死了！但我的墓碑上刻着‘123’，独一无二！隔壁124死了刻‘124’，我们虽然都死了，但墓碑号不同，联合索引守卫大哥您看&amp;hellip;” 守卫：“嗯&amp;hellip;行吧，算你们唯一，躺好别诈尸就行。”&lt;/em&gt; ✅&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h4 id=&#34;3-优势与注意事项&#34;&gt;3. 优势与注意事项
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;4-优势与注意事项&#34;&gt;4. 优势与注意事项
 &lt;/h4&gt;&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;唯一性保障&lt;/strong&gt;：每个删除记录的 &lt;code&gt;is_delete&lt;/code&gt; 值为唯一主键，避免联合索引冲突。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;兼容性&lt;/strong&gt;：适用于大多数数据库，需确保 &lt;code&gt;id&lt;/code&gt; 与 &lt;code&gt;is_delete&lt;/code&gt; 字段类型一致（如均为 &lt;code&gt;INT&lt;/code&gt;）。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;优势&lt;/strong&gt;：
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;终极唯一&lt;/strong&gt;：每个“僵尸”的墓碑号(&lt;code&gt;is_delete&lt;/code&gt;)就是自己的 &lt;code&gt;id&lt;/code&gt;，绝对唯一，联合索引再也不会打架！&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;数据库通吃&lt;/strong&gt;：这招不依赖特定数据库特性，MySQL, PostgreSQL, Oracle&amp;hellip; 统统能用！普适性强！&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;方案二利用-null-值特性mysql-场景&#34;&gt;方案二：利用 &lt;code&gt;NULL&lt;/code&gt; 值特性（MySQL 场景）
-&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;核心思路&lt;/strong&gt;：使用 &lt;code&gt;NULL&lt;/code&gt; 表示已删除状态，利用 MySQL 允许唯一索引中存在多个 &lt;code&gt;NULL&lt;/code&gt; 的特性。&lt;/p&gt;
-&lt;h4 id=&#34;1-字段配置-1&#34;&gt;1. 字段配置
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;注意事项&lt;/strong&gt;：
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;类型匹配&lt;/strong&gt;：&lt;code&gt;is_delete&lt;/code&gt; 字段的类型 &lt;strong&gt;必须&lt;/strong&gt; 和主键 &lt;code&gt;id&lt;/code&gt; 的类型一致！如果 &lt;code&gt;id&lt;/code&gt; 是 &lt;code&gt;BIGINT&lt;/code&gt;，&lt;code&gt;is_delete&lt;/code&gt; 也必须是 &lt;code&gt;BIGINT&lt;/code&gt;。不然&amp;hellip; 魔法会失败，后果很严重！ &lt;em&gt;(想象一下用String存Long id？画面太美&amp;hellip;)&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;理解本质&lt;/strong&gt;：查询时 &lt;code&gt;is_delete=0&lt;/code&gt; 找活人；&lt;code&gt;is_delete !=0&lt;/code&gt; 且值很大的那些，就是“僵尸”了（值等于它们生前的id）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;方案三利用-mysql-的-null-特性---让僵尸化为空气-mysql限定版&#34;&gt;方案三：利用 MySQL 的 &lt;code&gt;NULL&lt;/code&gt; 特性 - 让“僵尸”化为“空气” (MySQL限定版)
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;核心魔法&lt;/strong&gt;：&lt;strong&gt;让“死掉”的记录在唯一索引眼里变成“不存在”（&lt;code&gt;NULL&lt;/code&gt;）！&lt;/strong&gt; 因为 MySQL 的唯一索引允许存在多个 &lt;code&gt;NULL&lt;/code&gt; 值 (它们被视为不同的&amp;hellip;或者说，无视？)。&lt;/p&gt;
+&lt;h4 id=&#34;1-字段配置&#34;&gt;1. 字段配置
 &lt;/h4&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nd&#34;&gt;@TableLogic&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;value&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;1&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;delval&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;NULL&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;// value 设为未删除值（如 1）&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;private&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Integer&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;is_delete&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;// 允许为 NULL&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nd&#34;&gt;@TableLogic&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;value&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;1&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;delval&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;NULL&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;// 活人用1（对，反过来了！），死人变成NULL（空气）&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;private&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Integer&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;is_delete&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;// 关键！这个字段得允许为NULL！&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h4 id=&#34;2-数据形态&#34;&gt;2. 数据形态
+&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;作者提示&lt;/strong&gt;： &lt;em&gt;“这里 &lt;code&gt;value=&amp;quot;1&amp;quot;&lt;/code&gt; 是‘未删除’哦！和默认是反的！别晕！记住：活着的标志可以是0也可以是1，关键是死了要变成 &lt;code&gt;NULL&lt;/code&gt;。”&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;2-数据形态&#34;&gt;2. 数据形态
 &lt;/h4&gt;&lt;table&gt;
   &lt;thead&gt;
       &lt;tr&gt;
-          &lt;th&gt;name&lt;/th&gt;
-          &lt;th&gt;is_delete&lt;/th&gt;
-          &lt;th&gt;状态&lt;/th&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;name&lt;/th&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;is_delete&lt;/th&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;状态&lt;/th&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;唯一索引视角&lt;/th&gt;
       &lt;/tr&gt;
   &lt;/thead&gt;
   &lt;tbody&gt;
       &lt;tr&gt;
-          &lt;td&gt;张三&lt;/td&gt;
-          &lt;td&gt;&lt;code&gt;1&lt;/code&gt;&lt;/td&gt;
-          &lt;td&gt;未删除&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;张三&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;code&gt;1&lt;/code&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;未删除&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;唯一&lt;/strong&gt;的活张三 👍&lt;/td&gt;
       &lt;/tr&gt;
       &lt;tr&gt;
-          &lt;td&gt;张三&lt;/td&gt;
-          &lt;td&gt;&lt;code&gt;NULL&lt;/code&gt;&lt;/td&gt;
-          &lt;td&gt;已删除&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;张三&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;code&gt;NULL&lt;/code&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;已删除&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;无视&lt;/strong&gt; (空气) 🌫️&lt;/td&gt;
       &lt;/tr&gt;
       &lt;tr&gt;
-          &lt;td&gt;张三&lt;/td&gt;
-          &lt;td&gt;&lt;code&gt;NULL&lt;/code&gt;&lt;/td&gt;
-          &lt;td&gt;已删除&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;张三&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;code&gt;NULL&lt;/code&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;已删除&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;无视&lt;/strong&gt; (还是空气) 🌫️🌫️&lt;/td&gt;
       &lt;/tr&gt;
   &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h4 id=&#34;3-适用场景&#34;&gt;3. 适用场景
-&lt;/h4&gt;&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;仅限 MySQL&lt;/strong&gt;：其他数据库（如 Oracle）可能不允许唯一索引中存在多个 &lt;code&gt;NULL&lt;/code&gt;。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;字段允许为空&lt;/strong&gt;：需将 &lt;code&gt;is_delete&lt;/code&gt; 字段设置为可空（&lt;code&gt;NULLABLE&lt;/code&gt;）。&lt;/li&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;作者解读&lt;/strong&gt;： &lt;em&gt;“对于唯一索引 &lt;code&gt;name&lt;/code&gt; 来说，它只看到：‘哦，一个叫张三的活人(&lt;code&gt;1&lt;/code&gt;)&amp;hellip; 其他？什么其他？一堆 &lt;code&gt;NULL&lt;/code&gt; 我看不见看不见！’ 所以你再插入活张三(&lt;code&gt;1&lt;/code&gt;)会冲突，但插入‘死’张三(&lt;code&gt;NULL&lt;/code&gt;)多少次都行，反正唯一索引当它们是空气。”&lt;/em&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&#34;三方案对比&#34;&gt;三、方案对比
+&lt;h4 id=&#34;3-适用场景与坑&#34;&gt;3. 适用场景与坑
+&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;优点&lt;/strong&gt;：配置简单直观（如果理解 &lt;code&gt;NULL&lt;/code&gt; 行为的话）。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;巨坑/限制&lt;/strong&gt;：
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;MySQL ONLY!&lt;/strong&gt;：这是 &lt;strong&gt;MySQL 特有的魔法&lt;/strong&gt;！Oracle, SQL Server 等数据库的唯一索引通常&lt;strong&gt;不允许&lt;/strong&gt;有多个 &lt;code&gt;NULL&lt;/code&gt;！在这些数据库上用这招，很可能掉进另一个坑！ &lt;em&gt;(作者咆哮：&lt;/em&gt; &lt;code&gt;“&lt;/code&gt;&lt;em&gt;重要的事情说三遍：MySQL Only! MySQL Only! MySQL Only! 跨数据库的项目慎用！`&lt;/em&gt; &lt;em&gt;)&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;字段必须可为 &lt;code&gt;NULL&lt;/code&gt;&lt;/strong&gt;：&lt;code&gt;is_delete&lt;/code&gt; 字段在设计表时就必须是 &lt;code&gt;NULLABLE&lt;/code&gt; 的。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;语义稍显别扭&lt;/strong&gt;：活着的标志是 &lt;code&gt;1&lt;/code&gt; (或者你定义的任何非 &lt;code&gt;NULL&lt;/code&gt; 值)，死了是 &lt;code&gt;NULL&lt;/code&gt;。查询条件得写 &lt;code&gt;is_delete IS NOT NULL&lt;/code&gt; 找活人？或者反过来？需要适应一下。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;三方案对比选发身份证还是变空气&#34;&gt;三、方案对比：选“发身份证”还是“变空气”？
 &lt;/h2&gt;&lt;table&gt;
   &lt;thead&gt;
       &lt;tr&gt;
-          &lt;th&gt;维度&lt;/th&gt;
-          &lt;th&gt;方案一（动态值）&lt;/th&gt;
-          &lt;th&gt;方案二（NULL 值）&lt;/th&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;维度&lt;/th&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;方案二 (动态值 - 发身份证)&lt;/th&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;方案三 (NULL值 - 变空气)&lt;/th&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;作者内心OS / 调侃&lt;/th&gt;
       &lt;/tr&gt;
   &lt;/thead&gt;
   &lt;tbody&gt;
       &lt;tr&gt;
-          &lt;td&gt;&lt;strong&gt;兼容性&lt;/strong&gt;&lt;/td&gt;
-          &lt;td&gt;全数据库兼容&lt;/td&gt;
-          &lt;td&gt;仅限 MySQL（需验证其他数据库）&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;兼容性&lt;/strong&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;👍 全数据库兼容&lt;/strong&gt; (标准SQL搞定)&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;😐 仅限 MySQL&lt;/strong&gt; (其他DB可能翻车)&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;em&gt;“方案二：我，稳健！方案三：MySQL是我爹！”&lt;/em&gt;&lt;/td&gt;
       &lt;/tr&gt;
       &lt;tr&gt;
-          &lt;td&gt;&lt;strong&gt;字段要求&lt;/strong&gt;&lt;/td&gt;
-          &lt;td&gt;需与主键类型一致&lt;/td&gt;
-          &lt;td&gt;字段需允许 &lt;code&gt;NULL&lt;/code&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;字段要求&lt;/strong&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;⚠️ 需与主键类型一致&lt;/strong&gt; (类型匹配是命门)&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;⚠️ 字段需允许 &lt;code&gt;NULL&lt;/code&gt;&lt;/strong&gt; (设计时别忘了)&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;em&gt;“类型不对？等着报错吧！字段NotNull？哦豁！”&lt;/em&gt;&lt;/td&gt;
       &lt;/tr&gt;
       &lt;tr&gt;
-          &lt;td&gt;&lt;strong&gt;唯一性&lt;/strong&gt;&lt;/td&gt;
-          &lt;td&gt;绝对唯一（基于主键）&lt;/td&gt;
-          &lt;td&gt;依赖数据库特性（MySQL 允许）&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;唯一性&lt;/strong&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;🔒 绝对唯一&lt;/strong&gt; (主键ID天下无双)&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;🌫️ 依赖DB特性&lt;/strong&gt; (MySQL认NULL为空气)&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;em&gt;“身份证号唯一 vs 空气无视，都行，但前者更稳”&lt;/em&gt;&lt;/td&gt;
       &lt;/tr&gt;
       &lt;tr&gt;
-          &lt;td&gt;&lt;strong&gt;复杂度&lt;/strong&gt;&lt;/td&gt;
-          &lt;td&gt;需配置 &lt;code&gt;delval&lt;/code&gt; 表达式&lt;/td&gt;
-          &lt;td&gt;简单配置&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;复杂度&lt;/strong&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;⚙️ 中等&lt;/strong&gt; (需理解 &lt;code&gt;delval&lt;/code&gt; 表达式)&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;✨ 简单&lt;/strong&gt; (配个NULL就完事)&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;em&gt;“懒人选三(MySQL限定)，求稳选二(全球通)”&lt;/em&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;语义直观&lt;/strong&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;😐 一般&lt;/strong&gt; (删除值=ID，需要适应)&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;🤔 还行&lt;/strong&gt; (删除=NULL，符合“不存在”直觉)&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;em&gt;“NULL更直观？但跨DB是硬伤啊兄弟！”&lt;/em&gt;&lt;/td&gt;
       &lt;/tr&gt;
   &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h2 id=&#34;四总结&#34;&gt;四、总结
+&lt;h2 id=&#34;四总结让删除不再纠结让索引不再咆哮&#34;&gt;四、总结：让“删除”不再纠结，让索引不再咆哮
 &lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;优先选择方案一&lt;/strong&gt;：通过主键动态生成已删除值，兼顾唯一性和兼容性，适用于大多数场景。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;MySQL 特定场景可选方案二&lt;/strong&gt;：需注意字段可空性和数据库兼容性限制。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;首选推荐方案二 (动态主键值)&lt;/strong&gt;：&lt;strong&gt;“给僵尸发身份证”&lt;/strong&gt; 这招，普适性强、逻辑清晰、能根治冲突，是应对此问题的 &lt;strong&gt;瑞士军刀&lt;/strong&gt;。虽然配置时要注意类型匹配，但一劳永逸，强烈推荐！ &lt;em&gt;(作者敲黑板：&lt;/em&gt; &lt;code&gt;“&lt;/code&gt;&lt;em&gt;记住 &lt;code&gt;delval: &amp;quot;id&amp;quot;&lt;/code&gt; 这个咒语！`&lt;/em&gt; &lt;em&gt;)&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;MySQL 专属备选方案三 (NULL值)&lt;/strong&gt;：&lt;strong&gt;“让僵尸变空气”&lt;/strong&gt; 适合纯 MySQL 环境且追求配置极简的场景。&lt;strong&gt;BUT!&lt;/strong&gt; 千万记住它的 &lt;strong&gt;MySQL Only 属性&lt;/strong&gt; 和 &lt;strong&gt;字段可空要求&lt;/strong&gt;，否则容易上演《跨数据库の噩梦》。&lt;em&gt;(作者叹气：&lt;/em&gt; &lt;code&gt;“&lt;/code&gt;&lt;em&gt;多少英雄好汉倒在了 Oracle+NULL唯一索引的坑里&amp;hellip;`&lt;/em&gt; &lt;em&gt;)&lt;/em&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;最佳实践&lt;/strong&gt;：在设计表结构时，提前规划逻辑删除字段的取值规则，结合业务场景选择合适的唯一标识策略，避免后续索引冲突问题。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;最佳实践 (作者の肺腑之言)&lt;/strong&gt;：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;设计表时就要想好“身后事”！&lt;/strong&gt; 在拍板 &lt;code&gt;is_delete&lt;/code&gt; 字段叫啥名、啥类型、咋取值时，&lt;strong&gt;提前把逻辑删除和唯一索引可能干架的问题考虑进去&lt;/strong&gt;。结合你的业务场景（有没有天然分组字段？）、数据库选型（是不是只用MySQL？），&lt;strong&gt;选择一个合适的“唯一标识”策略&lt;/strong&gt;（是发身份证还是变空气？或者用组合字段？）。磨刀不误砍柴工，前期多花5分钟想清楚，能避免后期掉进坑里扑腾5小时！💪 (别问我怎么知道的&amp;hellip; 😭)&lt;/p&gt;&lt;/blockquote&gt;
 </description>
         </item>
         <item>
