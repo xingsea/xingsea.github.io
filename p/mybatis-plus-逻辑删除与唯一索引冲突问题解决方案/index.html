@@ -300,7 +300,7 @@
         </li>
       </ol>
     </li>
-    <li><a href="#三方案对比选发身份证还是变空气">三、方案对比：选“发身份证”还是“变空气”？</a></li>
+    <li><a href="#三方案对比三剑客的华山论剑">三、方案对比：三剑客的华山论剑</a></li>
     <li><a href="#四总结让删除不再纠结让索引不再咆哮">四、总结：让“删除”不再纠结，让索引不再咆哮</a></li>
   </ol>
 </nav>
@@ -395,7 +395,7 @@
 </ul>
 <h2 id="二解决方案让僵尸拥有身份证-or-变成空气">二、解决方案：让“僵尸”拥有身份证 or 变成“空气”
 </h2><h3 id="方案一组合索引-适合特定场景非万能">方案一：组合索引 (适合特定场景，非万能)
-</h3><p>建立 <code>(其他字段, 唯一字段)</code> 的组合唯一索引，比如 <code>(tenant_id, user_account)</code>。这相当于给“张三”加了个前缀，比如“A公司-张三”和“B公司-张三”就是两个不同的“张三”了。</p>
+</h3><p>建立 <code>(其他字段, 唯一字段)</code> 的组合唯一索引，比如 <code>(user_account，id)</code>。这相当于给“张三”加了个后缀，比如“A公司-张三”和“B公司-张三”就是两个不同的“张三”了。</p>
 <ul>
 <li><strong>作者点评</strong>： <em>“这招属于‘打不过就加入’——既然名字会重复，咱就搞个更复杂的唯一标识呗！适合有天然分组字段（如租户ID）的场景，简单粗暴有效。要是没有&hellip; 咱还是看看下面更通用的魔法吧。”</em></li>
 </ul>
@@ -458,16 +458,22 @@
 </ul>
 <h4 id="4-优势与注意事项">4. 优势与注意事项
 </h4><ul>
-<li><strong>优势</strong>：
+<li>
+<p><strong>优势</strong>：</p>
 <ul>
 <li><strong>终极唯一</strong>：每个“僵尸”的墓碑号(<code>is_delete</code>)就是自己的 <code>id</code>，绝对唯一，联合索引再也不会打架！</li>
 <li><strong>数据库通吃</strong>：这招不依赖特定数据库特性，MySQL, PostgreSQL, Oracle&hellip; 统统能用！普适性强！</li>
 </ul>
 </li>
-<li><strong>注意事项</strong>：
+<li>
+<p><strong>注意事项</strong>：</p>
 <ul>
-<li><strong>类型匹配</strong>：<code>is_delete</code> 字段的类型 <strong>必须</strong> 和主键 <code>id</code> 的类型一致！如果 <code>id</code> 是 <code>BIGINT</code>，<code>is_delete</code> 也必须是 <code>BIGINT</code>。不然&hellip; 魔法会失败，后果很严重！ <em>(想象一下用String存Long id？画面太美&hellip;)</em></li>
-<li><strong>理解本质</strong>：查询时 <code>is_delete=0</code> 找活人；<code>is_delete !=0</code> 且值很大的那些，就是“僵尸”了（值等于它们生前的id）。</li>
+<li>
+<p><strong>类型匹配</strong>：<code>is_delete</code> 字段的类型 <strong>必须</strong> 和主键 <code>id</code> 的类型一致！如果 <code>id</code> 是 <code>BIGINT</code>，<code>is_delete</code> 也必须是 <code>BIGINT</code>。不然&hellip; 魔法会失败，后果很严重！ <em>(想象一下用String存Long id？画面太美&hellip;)</em></p>
+</li>
+<li>
+<p><strong>理解本质</strong>：查询时 <code>is_delete=0</code> 找活人；<code>is_delete !=0</code> 且值很大的那些，就是“僵尸”了（值等于它们生前的id）。</p>
+</li>
 </ul>
 </li>
 </ul>
@@ -523,55 +529,91 @@
 </ul>
 <h4 id="3-适用场景与坑">3. 适用场景与坑
 </h4><ul>
-<li><strong>优点</strong>：配置简单直观（如果理解 <code>NULL</code> 行为的话）。</li>
-<li><strong>巨坑/限制</strong>：
+<li>
+<p><strong>优点</strong>：配置简单直观（如果理解 <code>NULL</code> 行为的话）。</p>
+</li>
+<li>
+<p><strong>巨坑/限制</strong>：</p>
 <ul>
-<li><strong>MySQL ONLY!</strong>：这是 <strong>MySQL 特有的魔法</strong>！Oracle, SQL Server 等数据库的唯一索引通常<strong>不允许</strong>有多个 <code>NULL</code>！在这些数据库上用这招，很可能掉进另一个坑！ <em>(作者咆哮：</em> <code>“</code><em>重要的事情说三遍：MySQL Only! MySQL Only! MySQL Only! 跨数据库的项目慎用！`</em> <em>)</em></li>
-<li><strong>字段必须可为 <code>NULL</code></strong>：<code>is_delete</code> 字段在设计表时就必须是 <code>NULLABLE</code> 的。</li>
-<li><strong>语义稍显别扭</strong>：活着的标志是 <code>1</code> (或者你定义的任何非 <code>NULL</code> 值)，死了是 <code>NULL</code>。查询条件得写 <code>is_delete IS NOT NULL</code> 找活人？或者反过来？需要适应一下。</li>
+<li>
+<p><strong>MySQL ONLY!</strong>：这是 <strong>MySQL 特有的魔法</strong>！Oracle, SQL Server 等数据库的唯一索引通常<strong>不允许</strong>有多个 <code>NULL</code>！在这些数据库上用这招，很可能掉进另一个坑！ <em>(作者咆哮：</em> <code>“</code><em>重要的事情说三遍：MySQL Only! MySQL Only! MySQL Only! 跨数据库的项目慎用！`</em> <em>)</em></p>
+</li>
+<li>
+<p><strong>字段必须可为 <code>NULL</code></strong>：<code>is_delete</code> 字段在设计表时就必须是 <code>NULLABLE</code> 的。</p>
+</li>
+<li>
+<p><strong>语义稍显别扭</strong>：活着的标志是 <code>1</code> (或者你定义的任何非 <code>NULL</code> 值)，死了是 <code>NULL</code>。查询条件得写 <code>is_delete IS NOT NULL</code> 找活人？或者反过来？需要适应一下。</p>
+</li>
 </ul>
 </li>
 </ul>
-<h2 id="三方案对比选发身份证还是变空气">三、方案对比：选“发身份证”还是“变空气”？
+<h2 id="三方案对比三剑客的华山论剑">三、方案对比：三剑客的华山论剑
 </h2><div class="table-wrapper"><table>
   <thead>
       <tr>
           <th style="text-align: left">维度</th>
+          <th style="text-align: left">方案一 (组合索引)</th>
           <th style="text-align: left">方案二 (动态值 - 发身份证)</th>
           <th style="text-align: left">方案三 (NULL值 - 变空气)</th>
-          <th style="text-align: left">作者内心OS / 调侃</th>
+          <th style="text-align: left">作者锐评 (带点私货) 💬</th>
       </tr>
   </thead>
   <tbody>
       <tr>
+          <td style="text-align: left"><strong>核心思路</strong></td>
+          <td style="text-align: left">给“唯一标识”加后缀 (如 <code>账号+主键id</code>)</td>
+          <td style="text-align: left">让“僵尸”用自己的ID当墓碑号 (<code>is_delete=id</code>)</td>
+          <td style="text-align: left">让“僵尸”在唯一索引眼里变空气 (<code>is_delete=NULL</code>)</td>
+          <td style="text-align: left"><em>“一个加码，一个刻碑，一个隐身”</em></td>
+      </tr>
+      <tr>
           <td style="text-align: left"><strong>兼容性</strong></td>
-          <td style="text-align: left"><strong>👍 全数据库兼容</strong> (标准SQL搞定)</td>
+          <td style="text-align: left"><strong>👍 全数据库兼容</strong></td>
+          <td style="text-align: left"><strong>👍 全数据库兼容</strong></td>
           <td style="text-align: left"><strong>😐 仅限 MySQL</strong> (其他DB可能翻车)</td>
-          <td style="text-align: left"><em>“方案二：我，稳健！方案三：MySQL是我爹！”</em></td>
+          <td style="text-align: left"><em>“方案一、二：我，稳健！方案三：MySQL是我爹！”</em></td>
       </tr>
       <tr>
           <td style="text-align: left"><strong>字段要求</strong></td>
+          <td style="text-align: left"><strong>⚠️ 需额外字段</strong> (如租户ID)</td>
           <td style="text-align: left"><strong>⚠️ 需与主键类型一致</strong> (类型匹配是命门)</td>
           <td style="text-align: left"><strong>⚠️ 字段需允许 <code>NULL</code></strong> (设计时别忘了)</td>
-          <td style="text-align: left"><em>“类型不对？等着报错吧！字段NotNull？哦豁！”</em></td>
+          <td style="text-align: left"><em>“没天然分组字段？方案一直接凉凉！”</em></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>解决本质</strong></td>
+          <td style="text-align: left"><strong>🛡️ 规避冲突</strong> (改变唯一条件)</td>
+          <td style="text-align: left"><strong>🔒 根除冲突</strong> (墓碑号唯一)</td>
+          <td style="text-align: left"><strong>🌫️ 规避冲突</strong> (利用NULL特性)</td>
+          <td style="text-align: left"><em>“方案二直捣黄龙，一劳永逸！”</em></td>
       </tr>
       <tr>
           <td style="text-align: left"><strong>唯一性</strong></td>
+          <td style="text-align: left"><strong>✅ 新组合键唯一</strong></td>
           <td style="text-align: left"><strong>🔒 绝对唯一</strong> (主键ID天下无双)</td>
           <td style="text-align: left"><strong>🌫️ 依赖DB特性</strong> (MySQL认NULL为空气)</td>
-          <td style="text-align: left"><em>“身份证号唯一 vs 空气无视，都行，但前者更稳”</em></td>
+          <td style="text-align: left"><em>“方案一、二真唯一，方案三靠数据库‘装瞎’”</em></td>
       </tr>
       <tr>
           <td style="text-align: left"><strong>复杂度</strong></td>
+          <td style="text-align: left"><strong>🏗️ 中高</strong> (需改表结构/索引+代码适配)</td>
           <td style="text-align: left"><strong>⚙️ 中等</strong> (需理解 <code>delval</code> 表达式)</td>
           <td style="text-align: left"><strong>✨ 简单</strong> (配个NULL就完事)</td>
-          <td style="text-align: left"><em>“懒人选三(MySQL限定)，求稳选二(全球通)”</em></td>
+          <td style="text-align: left"><em>“方案一最折腾，方案三最懒(但挑DB)”</em></td>
       </tr>
       <tr>
-          <td style="text-align: left"><strong>语义直观</strong></td>
-          <td style="text-align: left"><strong>😐 一般</strong> (删除值=ID，需要适应)</td>
-          <td style="text-align: left"><strong>🤔 还行</strong> (删除=NULL，符合“不存在”直觉)</td>
-          <td style="text-align: left"><em>“NULL更直观？但跨DB是硬伤啊兄弟！”</em></td>
+          <td style="text-align: left"><strong>适用场景</strong></td>
+          <td style="text-align: left"><strong>🏢 多租户/有天然分组字段</strong></td>
+          <td style="text-align: left"><strong>🌍 通用场景</strong> (尤其无分组字段时)</td>
+          <td style="text-align: left"><strong>🐬 纯MySQL环境+字段可空</strong></td>
+          <td style="text-align: left"><em>“有租户ID用一；求稳无脑选二；MySQL钉子户用三”</em></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>推荐指数</strong></td>
+          <td style="text-align: left"><strong>⭐️⭐️⭐️ (场景匹配时)</strong></td>
+          <td style="text-align: left"><strong>⭐️⭐️⭐️⭐️⭐️ (首选)</strong></td>
+          <td style="text-align: left"><strong>⭐️⭐️⭐️ (MySQL限定)</strong></td>
+          <td style="text-align: left"><em>“方案二：YYDS！方案一、三：看‘户口’和‘数据库国籍’”</em></td>
       </tr>
   </tbody>
 </table></div>
