@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="核心概念：SSH 端口转发（也称为 SSH 隧道）是一种利用加密的 SSH 连接来安全地传输其他非安全网络协议数据的技术。它就像一个加密的管道，将数据从一个端口安全地传输到另一个端口。 1. 本地端口转发 本地端口转发 是将本地机器的某个端口，通过 SSH 隧道转发到远程网络中的另一台机器的某个端口。\n">
+<title>SSH 的两种端口转发方式</title>
+
+<link rel='canonical' href='https://XingSea.github.io/p/ssh-%E7%9A%84%E4%B8%A4%E7%A7%8D%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91%E6%96%B9%E5%BC%8F/'>
+
+<link rel="stylesheet" href="/scss/style.min.d765f2f343b19f18ee6a9a4e4749f8abdbccfc01d8204548178c58f1fde36432.css"><meta property='og:title' content="SSH 的两种端口转发方式">
+<meta property='og:description' content="核心概念：SSH 端口转发（也称为 SSH 隧道）是一种利用加密的 SSH 连接来安全地传输其他非安全网络协议数据的技术。它就像一个加密的管道，将数据从一个端口安全地传输到另一个端口。 1. 本地端口转发 本地端口转发 是将本地机器的某个端口，通过 SSH 隧道转发到远程网络中的另一台机器的某个端口。\n">
+<meta property='og:url' content='https://XingSea.github.io/p/ssh-%E7%9A%84%E4%B8%A4%E7%A7%8D%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91%E6%96%B9%E5%BC%8F/'>
+<meta property='og:site_name' content='星海-XingSea'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='port' /><meta property='article:tag' content='transpond' /><meta property='article:tag' content='ssh' /><meta property='article:published_time' content='2025-08-22T21:56:30&#43;08:00'/><meta property='article:modified_time' content='2025-08-22T21:56:30&#43;08:00'/>
+<meta name="twitter:title" content="SSH 的两种端口转发方式">
+<meta name="twitter:description" content="核心概念：SSH 端口转发（也称为 SSH 隧道）是一种利用加密的 SSH 连接来安全地传输其他非安全网络协议数据的技术。它就像一个加密的管道，将数据从一个端口安全地传输到另一个端口。 1. 本地端口转发 本地端口转发 是将本地机器的某个端口，通过 SSH 隧道转发到远程网络中的另一台机器的某个端口。\n">
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_5ddc637f01a9b098.gif" width="300"
+                            height="306" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">😄</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">星海-XingSea</a></h1>
+            <h2 class="site-description">欢迎来到我的网站，此博客由【Hugo &#43; Stack】来进行搭建，主要分享个人生活和学习笔记</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://space.bilibili.com/333389264'
+                        target="_blank"
+                        title="bilibili"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-bilibili"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 10a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v6a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-6z" /><path d="M8 3l2 3" /><path d="M16 3l-2 3" /><path d="M9 13v-2" /><path d="M15 11v2" /></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com/XingSea'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://qm.qq.com/q/Ai4ohfD70c'
+                        target="_blank"
+                        title="QQ"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-qq"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 9.748a14.716 14.716 0 0 0 11.995 -.052c.275 -9.236 -11.104 -11.256 -11.995 .052z" /><path d="M18 10c.984 2.762 1.949 4.765 2 7.153c.014 .688 -.664 1.346 -1.184 .303c-.346 -.696 -.952 -1.181 -1.816 -1.456" /><path d="M17 16c.031 1.831 .147 3.102 -1 4" /><path d="M8 20c-1.099 -.87 -.914 -2.24 -1 -4" /><path d="M6 10c-.783 2.338 -1.742 4.12 -1.968 6.43c-.217 2.227 .716 1.644 1.16 .917c.296 -.487 .898 -.934 1.808 -1.347" /><path d="M15.898 13l-.476 -2" /><path d="M8 20l-1.5 1c-.5 .5 -.5 1 .5 1h10c1 0 1 -.5 .5 -1l-1.5 -1" /><path d="M13.75 7m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M10.25 7m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></svg>
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%8F%8B%E9%93%BE/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友链</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li>
+      <ol>
+        <li><a href="#核心概念ssh-端口转发也称为-ssh-隧道是一种利用加密的-ssh-连接来安全地传输其他非安全网络协议数据的技术它就像一个加密的管道将数据从一个端口安全地传输到另一个端口">核心概念：SSH 端口转发（也称为 SSH 隧道）是一种利用加密的 SSH 连接来安全地传输其他非安全网络协议数据的技术。它就像一个加密的管道，将数据从一个端口安全地传输到另一个端口。</a></li>
+        <li><a href="#1-本地端口转发">1. 本地端口转发</a></li>
+        <li><a href="#2-远程端口转发">2. 远程端口转发</a></li>
+        <li><a href="#总结与对比">总结与对比</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/ssh/" >
+                SSH
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/ssh-%E7%9A%84%E4%B8%A4%E7%A7%8D%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91%E6%96%B9%E5%BC%8F/">SSH 的两种端口转发方式</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">2025-08-22</time>
+            </div>
+        
+
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h3 id="核心概念ssh-端口转发也称为-ssh-隧道是一种利用加密的-ssh-连接来安全地传输其他非安全网络协议数据的技术它就像一个加密的管道将数据从一个端口安全地传输到另一个端口">核心概念：SSH 端口转发（也称为 SSH 隧道）是一种利用加密的 SSH 连接来安全地传输其他非安全网络协议数据的技术。它就像一个加密的管道，将数据从一个端口安全地传输到另一个端口。
+</h3><hr>
+<h3 id="1-本地端口转发">1. 本地端口转发
+</h3><p><strong>本地端口转发</strong> 是将<strong>本地机器</strong>的某个端口，通过 SSH 隧道转发到<strong>远程网络</strong>中的另一台机器的某个端口。</p>
+<p><strong>使用场景</strong>：当你无法直接访问目标服务器（Server B）的某个端口，但有一台跳板机（Server A）可以访问，并且你也能 SSH 登录到这台跳板机时。</p>
+<p><strong>命令格式</strong>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ssh -L <span class="o">[</span>本地绑定地址:<span class="o">]</span>本地端口:目标主机:目标端口 跳板机用户@跳板机地址
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>参数解释</strong>：</p>
+<ul>
+<li><code>-L</code>: 指定本地端口转发。</li>
+<li><code>本地绑定地址</code>： 可选，通常是 127.0.0.1（只有本机可访问）或 0.0.0.0（所有网卡可访问）。默认为本地。</li>
+<li><code>本地端口</code>： 你本地机器上开启的端口。</li>
+<li><code>目标主机:目标端口</code>： 你最终想要访问的服务器的地址和端口。</li>
+<li><code>跳板机用户@跳板机地址</code>： 你有权限登录的中间 SSH 服务器。</li>
+</ul>
+<p><strong>工作流程</strong>：</p>
+<ol>
+<li>你在本地机器上执行上述 SSH 命令，建立与跳板机（Server A）的连接。</li>
+<li>SSH 客户端会在你的本地机器上监听你指定的 <code>本地端口</code>。</li>
+<li>当你访问本地的 <code>本地端口</code>（如 <code>localhost:3306</code>) 时，数据会被 SSH 客户端加密。</li>
+<li>加密的数据通过 SSH 连接发送到跳板机（Server A）。</li>
+<li>跳板机上的 SSH 服务端解密数据，并将其转发到最终的 <code>目标主机:目标端口</code>（如 192.168.1.100:3306）。</li>
+<li>目标服务器返回的数据沿原路反向传输回你的本地机器。</li>
+</ol>
+<p><strong>示意图</strong>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">graph LR
+</span></span><span class="line"><span class="cl">    subgraph Your Network
+</span></span><span class="line"><span class="cl">        A[你的本地电脑]&lt;--&gt;|访问 localhost:本地端口| A
+</span></span><span class="line"><span class="cl">    end
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    A -.-&gt;|1. SSH 连接: ssh -L ... user@A| B[跳板机 Server A]
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    subgraph Remote Network
+</span></span><span class="line"><span class="cl">        B -.-&gt;|2. 转发数据到 B:目标端口| C[(目标服务 Server B)]
+</span></span><span class="line"><span class="cl">    end
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    A --&gt;|加密数据流| B
+</span></span><span class="line"><span class="cl">    B --&gt;|明文数据流| C
+</span></span><span class="line"><span class="cl">    C --&gt;|返回数据| B
+</span></span><span class="line"><span class="cl">    B --&gt;|加密返回数据| A
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>经典例子</strong>：访问远程内网数据库
+假设公司数据库 <code>mysql.internal.com</code>（端口3306）只能在公司内网访问。你有一台可以 SSH 登录的公司公网服务器 <code>jump.company.com</code>。你可以这样操作：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ssh -L 3307:mysql.internal.com:3306 yourname@jump.company.com
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>之后，你在本地电脑上连接 <code>localhost:3307</code>，就等于通过 <code>jump.company.com</code> 这台跳板机连接到了内网的 <code>mysql.internal.com:3306</code>。</p>
+<hr>
+<h3 id="2-远程端口转发">2. 远程端口转发
+</h3><p><strong>远程端口转发</strong> 是将<strong>远程 SSH 服务器</strong>的某个端口，通过 SSH 隧道转发到<strong>你的本地网络</strong>或本地机器能访问的网络中的另一台机器的某个端口。</p>
+<p><strong>使用场景</strong>：当你需要让外网的人访问你本地电脑（或你本地网络中的某台机器）上运行的服务，但你本地没有公网 IP（例如在家中的电脑）。</p>
+<p><strong>命令格式</strong>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ssh -R <span class="o">[</span>远程绑定地址:<span class="o">]</span>远程端口:目标主机:目标端口 公网服务器用户@公网服务器地址
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>参数解释</strong>：</p>
+<ul>
+<li><code>-R</code>: 指定远程端口转发。</li>
+<li><code>远程绑定地址</code>： 可选，在公网服务器上绑定的地址。通常需要修改 SSH 服务器配置（如 <code>GatewayPorts</code>）才能绑定到 0.0.0.0。</li>
+<li><code>远程端口</code>： 在公网服务器上开启的端口。</li>
+<li><code>目标主机:目标端口</code>： 从公网服务器角度看，它要把数据转发到哪里。通常是你本地机器（localhost）或其所在局域网的其他服务。</li>
+<li><code>公网服务器用户@公网服务器地址</code>： 你有一台有公网 IP 的服务器。</li>
+</ul>
+<p><strong>工作流程</strong>：</p>
+<ol>
+<li>你在本地机器上执行上述 SSH 命令，建立与公网服务器（Public Server）的连接。</li>
+<li>SSH 服务端会在公网服务器上监听你指定的 <code>远程端口</code>。</li>
+<li>当任何人访问公网服务器的 <code>远程端口</code>（如 <code>public-server.com:8080</code>) 时，数据会被发送到公网服务器。</li>
+<li>公网服务器上的 SSH 服务端会将这个端口的数据通过已建立的 SSH 连接加密发送回你的本地 SSH 客户端。</li>
+<li>你的本地 SSH 客户端解密数据，并将其转发到 <code>目标主机:目标端口</code>（如 <code>localhost:3000</code>）。</li>
+<li>目标服务返回的数据沿原路反向传输回公网服务器，最终返回给访问者。</li>
+</ol>
+<p><strong>示意图</strong>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">graph LR
+</span></span><span class="line"><span class="cl">    InternetUser[互联网用户] --&gt;|访问 公网IP:远程端口| B[公网服务器 Public Server]
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    subgraph Your Local Network
+</span></span><span class="line"><span class="cl">        A[你的本地电脑]&lt;--&gt;|运行着本地服务 localhost:目标端口| A
+</span></span><span class="line"><span class="cl">    end
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    A -.-&gt;|1. SSH 连接: ssh -R ... user@B| B
+</span></span><span class="line"><span class="cl">    B -.-&gt;|2. 数据通过隧道传回本地| A
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    InternetUser --&gt;|加密数据流| B
+</span></span><span class="line"><span class="cl">    B --&gt;|加密数据流| A
+</span></span><span class="line"><span class="cl">    A --&gt;|明文访问本地服务| A
+</span></span><span class="line"><span class="cl">    A --&gt;|返回数据| B
+</span></span><span class="line"><span class="cl">    B --&gt;|返回数据| InternetUser
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>经典例子</strong>：临时暴露本地开发环境
+你在本地电脑 <code>localhost:3000</code> 运行了一个 Web 项目，想让外地的同事查看。你有一台公网服务器 <code>public.example.com</code>。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ssh -R 8080:localhost:3000 user@public.example.com
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>之后，你的同事访问 <code>http://public.example.com:8080</code>，公网服务器就会将请求通过 SSH 隧道转发到你本地电脑的 <code>3000</code> 端口，从而看到你的网页。</p>
+<hr>
+<h3 id="总结与对比">总结与对比
+</h3><div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">特性</th>
+          <th style="text-align: left">本地端口转发 (<code>-L</code>)</th>
+          <th style="text-align: left">远程端口转发 (<code>-R</code>)</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>方向</strong></td>
+          <td style="text-align: left"><strong>从本地出发</strong>，指向远程网络</td>
+          <td style="text-align: left"><strong>从远程出发</strong>，指向本地网络</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>命令发起者</strong></td>
+          <td style="text-align: left">需要访问内部服务的客户端</td>
+          <td style="text-align: left">提供内部服务的主机（通常在内网）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>监听端口</strong></td>
+          <td style="text-align: left">监听在<strong>本地机器</strong>上</td>
+          <td style="text-align: left">监听在<strong>远程SSH服务器</strong>上</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>主要目的</strong></td>
+          <td style="text-align: left">让我能访问另一个网络的服务</td>
+          <td style="text-align: left">让另一个网络的人能访问我（或我的网络）的服务</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>常用场景</strong></td>
+          <td style="text-align: left">访问公司内网数据库、Web服务</td>
+          <td style="text-align: left">暴露本地开发环境、将家中NAS服务临时映射到公网</td>
+      </tr>
+  </tbody>
+</table></div>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/port/">Port</a>
+        
+            <a href="/tags/transpond/">Transpond</a>
+        
+            <a href="/tags/ssh/">Ssh</a>
+        
+    </section>
+
+
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+     
+    
+        
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2025 XingSea
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.99ce1801c4bad426a42fc436add4721e149159dbb598636e9578fd59cf778c83.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
+<div id="aplayer"></div>
+
+<script>
+    const home =  null ;
+    console.log(home);
+    
+    const ap = new APlayer({
+    container: document.getElementById('aplayer'),
+    
+    loop: 'one',
+    fixed: true,
+    audio: [{
+        name: '两难',
+        artist: '加木',
+        url: 'music/两难/song.mp3',
+        cover: 'music/两难/cover.jpg'
+    }]
+});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script>
+
+    
+    <script src=https://XingSea.github.io/js/topbar.min.js></script>
+
+<script>
+    var pjax = new Pjax({
+  selectors: [".main-container", ".js-Pjax"]
+})
+
+    pjax._handleResponse = pjax.handleResponse;
+    pjax.handleResponse = function(responseText, request, href, options) {
+        if (request.responseText.match("<html")) {
+            if (responseText) {
+                
+                let newDom = new DOMParser().parseFromString(responseText, 'text/html');
+                
+                let bodyClass = newDom.body.className;
+                document.body.setAttribute("class", bodyClass)
+                
+                
+                pjax._handleResponse(responseText, request, href, options);
+                
+            }
+        } else {
+            
+        }
+    }
+
+        
+    topbar.config({
+        barColors: {
+            '0': 'rgba(255,  255, 255, 1)', 
+            '1.0': 'rgba(0, 149, 234,  1)' 
+        }
+    })
+	
+    document.addEventListener('pjax:send', () => {
+        
+        topbar.show();
+    })
+
+
+    document.addEventListener('pjax:complete', ()=>{
+        window.Stack.init();
+        topbar.hide();
+    })
+</script>
+
+
+<div class="js-Pjax">
+    
+<div>
+
+
+<script>
+    
+const live2d_path = 'https://fastly.jsdelivr.net/npm/live2d-widgets@1.0.0-rc.2/dist/';
+
+ const cssPath = "https://XingSea.github.io/waifu/waifu.css";
+ const tipsPath = "https://XingSea.github.io/waifu/waifu-tips.json";
+
+
+function loadExternalResource(url, type) {
+  return new Promise((resolve, reject) => {
+    let tag;
+
+    if (type === 'css') {
+      tag = document.createElement('link');
+      tag.rel = 'stylesheet';
+      tag.href = url;
+    }
+    else if (type === 'js') {
+      tag = document.createElement('script');
+      tag.type = 'module';
+      tag.src = url;
+    }
+    if (tag) {
+      tag.onload = () => resolve(url);
+      tag.onerror = () => reject(url);
+      document.head.appendChild(tag);
+    }
+  });
+}
+
+
+
+(async () => {
+
+  const OriginalImage = window.Image;
+  window.Image = function(...args) {
+    const img = new OriginalImage(...args);
+    img.crossOrigin = "anonymous";
+    return img;
+  };
+  window.Image.prototype = OriginalImage.prototype;
+
+  await Promise.all([
+    loadExternalResource(cssPath, 'css'),
+    loadExternalResource(live2d_path + 'waifu-tips.js', 'js'),
+  ]);
+  
+  initWidget({
+    waifuPath: tipsPath,
+    cdnPath: 'https://cdn.jsdelivr.net/gh/XingSea/static-resource@v1.0.0',
+    cubism2Path: live2d_path + 'live2d.min.js',
+    cubism5Path: 'https://cubism.live2d.com/sdk-web/cubismcore/live2dcubismcore.min.js',
+    tools: ['hitokoto', 'asteroids', 'switch-model', 'switch-texture','info', 'quit'],
+    logLevel: 'warn',
+    drag: false,
+  });
+
+  
+  
+})();
+
+</script>
+
+
+
+
+ 
+
+
+
+
+<div id="particles-js"></div>
+
+<script src=https://XingSea.github.io/background/particles.min.js></script>
+<script>
+  particlesJS.load('particles-js', "https://XingSea.github.io/background/particlesjs-config.json", function() {
+    console.log('particles.js loaded - callback');
+  });
+</script>
+
+<style>
+  #particles-js {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: -1;
+  }
+</style>
+
+    </body>
+</html>

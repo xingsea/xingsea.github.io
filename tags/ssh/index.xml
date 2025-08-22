@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Ssh on 星海-XingSea</title>
+        <link>https://XingSea.github.io/tags/ssh/</link>
+        <description>Recent content in Ssh on 星海-XingSea</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <copyright>XingSea</copyright>
+        <lastBuildDate>Fri, 22 Aug 2025 21:56:30 +0800</lastBuildDate><atom:link href="https://XingSea.github.io/tags/ssh/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>SSH 的两种端口转发方式</title>
+        <link>https://XingSea.github.io/p/ssh-%E7%9A%84%E4%B8%A4%E7%A7%8D%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91%E6%96%B9%E5%BC%8F/</link>
+        <pubDate>Fri, 22 Aug 2025 21:56:30 +0800</pubDate>
+        
+        <guid>https://XingSea.github.io/p/ssh-%E7%9A%84%E4%B8%A4%E7%A7%8D%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91%E6%96%B9%E5%BC%8F/</guid>
+        <description>&lt;h3 id=&#34;核心概念ssh-端口转发也称为-ssh-隧道是一种利用加密的-ssh-连接来安全地传输其他非安全网络协议数据的技术它就像一个加密的管道将数据从一个端口安全地传输到另一个端口&#34;&gt;核心概念：SSH 端口转发（也称为 SSH 隧道）是一种利用加密的 SSH 连接来安全地传输其他非安全网络协议数据的技术。它就像一个加密的管道，将数据从一个端口安全地传输到另一个端口。
+&lt;/h3&gt;&lt;hr&gt;
+&lt;h3 id=&#34;1-本地端口转发&#34;&gt;1. 本地端口转发
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;本地端口转发&lt;/strong&gt; 是将&lt;strong&gt;本地机器&lt;/strong&gt;的某个端口，通过 SSH 隧道转发到&lt;strong&gt;远程网络&lt;/strong&gt;中的另一台机器的某个端口。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;使用场景&lt;/strong&gt;：当你无法直接访问目标服务器（Server B）的某个端口，但有一台跳板机（Server A）可以访问，并且你也能 SSH 登录到这台跳板机时。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;命令格式&lt;/strong&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;ssh -L &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;本地绑定地址:&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;本地端口:目标主机:目标端口 跳板机用户@跳板机地址
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;参数解释&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;-L&lt;/code&gt;: 指定本地端口转发。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;本地绑定地址&lt;/code&gt;： 可选，通常是 127.0.0.1（只有本机可访问）或 0.0.0.0（所有网卡可访问）。默认为本地。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;本地端口&lt;/code&gt;： 你本地机器上开启的端口。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;目标主机:目标端口&lt;/code&gt;： 你最终想要访问的服务器的地址和端口。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;跳板机用户@跳板机地址&lt;/code&gt;： 你有权限登录的中间 SSH 服务器。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;工作流程&lt;/strong&gt;：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;你在本地机器上执行上述 SSH 命令，建立与跳板机（Server A）的连接。&lt;/li&gt;
+&lt;li&gt;SSH 客户端会在你的本地机器上监听你指定的 &lt;code&gt;本地端口&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;当你访问本地的 &lt;code&gt;本地端口&lt;/code&gt;（如 &lt;code&gt;localhost:3306&lt;/code&gt;) 时，数据会被 SSH 客户端加密。&lt;/li&gt;
+&lt;li&gt;加密的数据通过 SSH 连接发送到跳板机（Server A）。&lt;/li&gt;
+&lt;li&gt;跳板机上的 SSH 服务端解密数据，并将其转发到最终的 &lt;code&gt;目标主机:目标端口&lt;/code&gt;（如 192.168.1.100:3306）。&lt;/li&gt;
+&lt;li&gt;目标服务器返回的数据沿原路反向传输回你的本地机器。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;示意图&lt;/strong&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;graph LR
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    subgraph Your Network
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        A[你的本地电脑]&amp;lt;--&amp;gt;|访问 localhost:本地端口| A
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    end
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    A -.-&amp;gt;|1. SSH 连接: ssh -L ... user@A| B[跳板机 Server A]
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    subgraph Remote Network
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        B -.-&amp;gt;|2. 转发数据到 B:目标端口| C[(目标服务 Server B)]
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    end
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    A --&amp;gt;|加密数据流| B
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    B --&amp;gt;|明文数据流| C
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    C --&amp;gt;|返回数据| B
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    B --&amp;gt;|加密返回数据| A
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;经典例子&lt;/strong&gt;：访问远程内网数据库
+假设公司数据库 &lt;code&gt;mysql.internal.com&lt;/code&gt;（端口3306）只能在公司内网访问。你有一台可以 SSH 登录的公司公网服务器 &lt;code&gt;jump.company.com&lt;/code&gt;。你可以这样操作：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;ssh -L 3307:mysql.internal.com:3306 yourname@jump.company.com
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;之后，你在本地电脑上连接 &lt;code&gt;localhost:3307&lt;/code&gt;，就等于通过 &lt;code&gt;jump.company.com&lt;/code&gt; 这台跳板机连接到了内网的 &lt;code&gt;mysql.internal.com:3306&lt;/code&gt;。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;2-远程端口转发&#34;&gt;2. 远程端口转发
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;远程端口转发&lt;/strong&gt; 是将&lt;strong&gt;远程 SSH 服务器&lt;/strong&gt;的某个端口，通过 SSH 隧道转发到&lt;strong&gt;你的本地网络&lt;/strong&gt;或本地机器能访问的网络中的另一台机器的某个端口。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;使用场景&lt;/strong&gt;：当你需要让外网的人访问你本地电脑（或你本地网络中的某台机器）上运行的服务，但你本地没有公网 IP（例如在家中的电脑）。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;命令格式&lt;/strong&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;ssh -R &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;远程绑定地址:&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;远程端口:目标主机:目标端口 公网服务器用户@公网服务器地址
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;参数解释&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;-R&lt;/code&gt;: 指定远程端口转发。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;远程绑定地址&lt;/code&gt;： 可选，在公网服务器上绑定的地址。通常需要修改 SSH 服务器配置（如 &lt;code&gt;GatewayPorts&lt;/code&gt;）才能绑定到 0.0.0.0。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;远程端口&lt;/code&gt;： 在公网服务器上开启的端口。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;目标主机:目标端口&lt;/code&gt;： 从公网服务器角度看，它要把数据转发到哪里。通常是你本地机器（localhost）或其所在局域网的其他服务。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;公网服务器用户@公网服务器地址&lt;/code&gt;： 你有一台有公网 IP 的服务器。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;工作流程&lt;/strong&gt;：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;你在本地机器上执行上述 SSH 命令，建立与公网服务器（Public Server）的连接。&lt;/li&gt;
+&lt;li&gt;SSH 服务端会在公网服务器上监听你指定的 &lt;code&gt;远程端口&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;当任何人访问公网服务器的 &lt;code&gt;远程端口&lt;/code&gt;（如 &lt;code&gt;public-server.com:8080&lt;/code&gt;) 时，数据会被发送到公网服务器。&lt;/li&gt;
+&lt;li&gt;公网服务器上的 SSH 服务端会将这个端口的数据通过已建立的 SSH 连接加密发送回你的本地 SSH 客户端。&lt;/li&gt;
+&lt;li&gt;你的本地 SSH 客户端解密数据，并将其转发到 &lt;code&gt;目标主机:目标端口&lt;/code&gt;（如 &lt;code&gt;localhost:3000&lt;/code&gt;）。&lt;/li&gt;
+&lt;li&gt;目标服务返回的数据沿原路反向传输回公网服务器，最终返回给访问者。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;示意图&lt;/strong&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;graph LR
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    InternetUser[互联网用户] --&amp;gt;|访问 公网IP:远程端口| B[公网服务器 Public Server]
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    subgraph Your Local Network
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        A[你的本地电脑]&amp;lt;--&amp;gt;|运行着本地服务 localhost:目标端口| A
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    end
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    A -.-&amp;gt;|1. SSH 连接: ssh -R ... user@B| B
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    B -.-&amp;gt;|2. 数据通过隧道传回本地| A
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    InternetUser --&amp;gt;|加密数据流| B
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    B --&amp;gt;|加密数据流| A
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    A --&amp;gt;|明文访问本地服务| A
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    A --&amp;gt;|返回数据| B
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    B --&amp;gt;|返回数据| InternetUser
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;经典例子&lt;/strong&gt;：临时暴露本地开发环境
+你在本地电脑 &lt;code&gt;localhost:3000&lt;/code&gt; 运行了一个 Web 项目，想让外地的同事查看。你有一台公网服务器 &lt;code&gt;public.example.com&lt;/code&gt;。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;ssh -R 8080:localhost:3000 user@public.example.com
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;之后，你的同事访问 &lt;code&gt;http://public.example.com:8080&lt;/code&gt;，公网服务器就会将请求通过 SSH 隧道转发到你本地电脑的 &lt;code&gt;3000&lt;/code&gt; 端口，从而看到你的网页。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;总结与对比&#34;&gt;总结与对比
+&lt;/h3&gt;&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;特性&lt;/th&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;本地端口转发 (&lt;code&gt;-L&lt;/code&gt;)&lt;/th&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;远程端口转发 (&lt;code&gt;-R&lt;/code&gt;)&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;方向&lt;/strong&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;从本地出发&lt;/strong&gt;，指向远程网络&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;从远程出发&lt;/strong&gt;，指向本地网络&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;命令发起者&lt;/strong&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;需要访问内部服务的客户端&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;提供内部服务的主机（通常在内网）&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;监听端口&lt;/strong&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;监听在&lt;strong&gt;本地机器&lt;/strong&gt;上&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;监听在&lt;strong&gt;远程SSH服务器&lt;/strong&gt;上&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;主要目的&lt;/strong&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;让我能访问另一个网络的服务&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;让另一个网络的人能访问我（或我的网络）的服务&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;常用场景&lt;/strong&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;访问公司内网数据库、Web服务&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;暴露本地开发环境、将家中NAS服务临时映射到公网&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>
